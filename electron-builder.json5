@@ -1,43 +1,100 @@
-// @see - https://www.electron.build/configuration/configuration
 {
-  "$schema": "https://raw.githubusercontent.com/electron-userland/electron-builder/master/packages/app-builder-lib/scheme.json",
-  "appId": "YourAppID",
-  "asar": true,
-  "productName": "YourAppName",
-  "directories": {
-    "output": "release/${version}"
+  $schema: "https://raw.githubusercontent.com/electron-userland/electron-builder/master/packages/app-builder-lib/scheme.json",
+  appId: "com.cortex.docs",
+  asar: true,
+  productName: "Cortex",
+  directories: {
+    output: "release/${version}",
   },
-  "files": [
-    "dist",
-    "dist-electron"
+  files: ["dist", "dist-electron"],
+  publish: [
+    {
+      provider: "github",
+      owner: "lwshakib",
+      repo: "cortex-electron-docs-app",
+      releaseType: "draft",
+    },
   ],
-  "mac": {
-    "target": [
-      "dmg"
-    ],
-    "artifactName": "${productName}-Mac-${version}-Installer.${ext}"
+  compression: "maximum",
+  extraMetadata: {
+    version: "0.0.0",
+    description: "A modern, feature-rich desktop docs and note taking application built with Electron, React, and TypeScript.",
+    author: "Shakib Khan <leadwithshakib@gmail.com>",
+    homepage: "https://github.com/lwshakib/cortex-electron-docs-app",
+    license: "MIT",
   },
-  "win": {
-    "target": [
+  mac: {
+    icon: "public/icons/mac/icon.icns",
+    target: ["dmg"],
+    artifactName: "${productName}-Mac-${version}-Installer.${ext}",
+    hardenedRuntime: true,
+    gatekeeperAssess: false,
+    category: "public.app-category.productivity",
+    extendInfo: {
+      NSAppleEventsUsageDescription: "This app requires access to Apple Events for automation.",
+      CFBundleDisplayName: "Cortex",
+      CFBundleName: "Cortex",
+    },
+  },
+  win: {
+    icon: "public/icons/win/icon.ico",
+    target: [
       {
-        "target": "nsis",
-        "arch": [
-          "x64"
-        ]
-      }
+        target: "nsis",
+        arch: ["x64"],
+      },
     ],
-    "artifactName": "${productName}-Windows-${version}-Setup.${ext}"
+    artifactName: "${productName}-Windows-${version}-Setup.${ext}",
+    publisherName: "Cortex Team",
+    verifyUpdateCodeSignature: false,
   },
-  "nsis": {
-    "oneClick": false,
-    "perMachine": false,
-    "allowToChangeInstallationDirectory": true,
-    "deleteAppDataOnUninstall": false
+  nsis: {
+    oneClick: false,
+    perMachine: false,
+    allowToChangeInstallationDirectory: true,
+    deleteAppDataOnUninstall: false,
+    allowElevation: true,
+    runAfterFinish: true,
+    createDesktopShortcut: true,
+    createStartMenuShortcut: true,
+    shortcutName: "Cortex",
+    installerIcon: "public/icons/win/icon.ico",
+    uninstallerIcon: "public/icons/win/icon.ico",
+    installerHeaderIcon: "public/icons/win/icon.ico",
   },
-  "linux": {
-    "target": [
-      "AppImage"
+  linux: {
+    icon: "public/icons/png/256x256.png",
+    target: ["AppImage"],
+    artifactName: "${productName}-Linux-${version}.${ext}",
+    category: "Utility",
+    maintainer: "Shakib Khan <leadwithshakib@gmail.com>",
+    desktop: {
+      StartupWMClass: "cortex",
+      Name: "Cortex",
+      GenericName: "Docs and Note Taking App",
+      Comment: "A modern, feature-rich desktop docs and note taking application",
+      Keywords: "notes;documents;text;editor;productivity;writing;",
+    },
+  },
+  dmg: {
+    title: "${productName} ${version}",
+    icon: "public/icons/mac/icon.icns",
+    background: "public/icons/png/512x512.png",
+    window: {
+      width: 540,
+      height: 380,
+    },
+    contents: [
+      {
+        x: 130,
+        y: 220,
+      },
+      {
+        x: 410,
+        y: 220,
+        type: "link",
+        path: "/Applications",
+      },
     ],
-    "artifactName": "${productName}-Linux-${version}.${ext}"
-  }
+  },
 }
