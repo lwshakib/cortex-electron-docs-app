@@ -47,18 +47,17 @@ export const loadDocs = async (): Promise<Document[]> => {
   await ensureDir(rootDir);
 
   const checkConfig = await isConfigAvailable();
-  if(checkConfig){
+  if (checkConfig) {
     // find a file config.json
     const configPath = `${rootDir}/config.json`;
     const config = await readFile(configPath, "utf-8");
     const configJson = JSON.parse(config);
-  
+
     const docs = buildHierarchy(configJson);
     return docs;
-  }else{
+  } else {
     return await createConfigAndWelcomeFile();
   }
-
 };
 
 export const isConfigAvailable = async () => {
@@ -101,11 +100,16 @@ export const createConfigAndWelcomeFile = async (): Promise<Document[]> => {
 
   // create a file welcome.json with the welcome content
   const welcomePath = `${rootDir}/welcome.json`;
-  const constantsPath = path.join(process.env.APP_ROOT || process.cwd(), "constants", "welcome.json");
-  
+  const constantsPath = path.join(
+    process.env.APP_ROOT || process.cwd(),
+    "lib",
+    "constants",
+    "welcome.json"
+  );
+
   console.log("Creating welcome file at:", welcomePath);
   console.log("Reading from constants path:", constantsPath);
-  
+
   try {
     const welcomeContent = await fs.readFile(constantsPath, "utf-8");
     await writeFile(welcomePath, welcomeContent);
@@ -117,7 +121,7 @@ export const createConfigAndWelcomeFile = async (): Promise<Document[]> => {
       {
         type: "paragraph",
         content: "Welcome to Cortex Docs!",
-      }
+      },
     ]);
     await writeFile(welcomePath, fallbackContent);
     console.log("Created welcome.json with fallback content");
@@ -202,7 +206,9 @@ export const deleteDoc = async (args: { id: string }) => {
     documentsToDelete.push(id); // Add the parent document itself
 
     // Remove all documents from config.json
-    const updatedConfig = configJson.filter((doc: Document) => !documentsToDelete.includes(doc.id));
+    const updatedConfig = configJson.filter(
+      (doc: Document) => !documentsToDelete.includes(doc.id)
+    );
     await writeFile(configPath, JSON.stringify(updatedConfig, null, 2));
 
     // Delete all document files
@@ -227,7 +233,7 @@ export const deleteDoc = async (args: { id: string }) => {
 // Helper function to get all child document IDs recursively
 const getAllChildIds = (docs: Document[], parentId: string): string[] => {
   const childIds: string[] = [];
-  
+
   const findChildren = (docId: string) => {
     const children = docs.filter((doc) => doc.documentParentId === docId);
     children.forEach((child) => {
@@ -235,7 +241,7 @@ const getAllChildIds = (docs: Document[], parentId: string): string[] => {
       findChildren(child.id); // Recursively find children of children
     });
   };
-  
+
   findChildren(parentId);
   return childIds;
 };
@@ -362,5 +368,3 @@ export const searchDocuments = async (args: { query: string }) => {
     return [];
   }
 };
-
-
