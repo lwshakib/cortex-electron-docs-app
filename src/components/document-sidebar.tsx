@@ -1,4 +1,4 @@
-import { FileText, Plus, Search, X } from "lucide-react";
+import { FileText, Plus, Search, X, Github } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useDocumentContext } from "../hooks/use-document-context";
@@ -81,9 +81,18 @@ function DocumentSidebar() {
     <div className="w-full h-screen flex flex-col">
       {/* Header */}
       <div className="p-4">
-        <div className="flex items-center drag-css">
-          <img src={logo} alt="Cortex Logo" className="h-8 w-8" />
-          <h2 className="text-lg font-semibold text-foreground">Cortex</h2>
+        <div className="flex items-center justify-between drag-css">
+          <div className="flex items-center">
+            <img src={logo} alt="Cortex Logo" className="h-8 w-8" />
+            <h2 className="text-lg font-semibold text-foreground ml-2">Cortex</h2>
+          </div>
+          <button
+            onClick={() => window.open("https://github.com/lwshakib/cortex-electron-docs-app", "_blank")}
+            className="h-8 w-8 p-0 hover:bg-muted/50 rounded-md transition-colors no-drag-css flex items-center justify-center text-muted-foreground hover:text-foreground"
+            title="View on GitHub"
+          >
+            <Github className="h-4 w-4" />
+          </button>
         </div>
       </div>
 
