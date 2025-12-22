@@ -121,3 +121,49 @@
     @apply bg-background text-foreground;
   }
 }
+
+
+
+
+
+.drag-css {
+  -webkit-app-region: drag;
+}
+
+.no-drag-css {
+  -webkit-app-region: no-drag;
+}
+
+
+.bn-editor,
+.bn-container {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.bn-small-text .bn-editor {
+  font-size: 0.875rem; /* Default paragraph text */
+  line-height: 1.5; /* Optional: ensure readability */
+}
+
+.bn-small-text .bn-editor h1 {
+  font-size: 1.25rem;
+}
+
+.bn-small-text .bn-editor h2 {
+  font-size: 1.125rem;
+}
+
+.bn-small-text .bn-editor h3 {
+  font-size: 1rem;
+}
+
+/* For bullet or numbered lists, quotes, etc. */
+.bn-small-text .bn-editor ul,
+.bn-small-text .bn-editor ol,
+.bn-small-text .bn-editor blockquote {
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
