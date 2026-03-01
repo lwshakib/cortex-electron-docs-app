@@ -1,11 +1,10 @@
-import { ensureDir, readFile, writeFile } from "fs-extra";
-import fs from "fs/promises";
-import { homedir } from "os";
-import { v4 as uuid } from "uuid";
-import welcomeData from "../constants/welcome.json";
+import { ensureDir, readFile, writeFile } from 'fs-extra';
+import fs from 'fs/promises';
+import { homedir } from 'os';
+import { v4 as uuid } from 'uuid';
+import welcomeData from '../constants/welcome.json';
 
-
-export const appDirectoryName = ".cortex";
+export const appDirectoryName = '.cortex';
 export const getRootDir = () => {
   return `${homedir()}/${appDirectoryName}`;
 };
@@ -51,7 +50,7 @@ export const loadDocs = async (): Promise<Document[]> => {
   if (checkConfig) {
     // find a file config.json
     const configPath = `${rootDir}/config.json`;
-    const config = await readFile(configPath, "utf-8");
+    const config = await readFile(configPath, 'utf-8');
     const configJson = JSON.parse(config);
 
     const docs = buildHierarchy(configJson);
@@ -90,26 +89,25 @@ export const createConfigAndWelcomeFile = async (): Promise<Document[]> => {
     configPath,
     JSON.stringify([
       {
-        id: "welcome",
-        title: "Welcome",
-        content: "Welcome to Cortex Docs",
+        id: 'welcome',
+        title: 'Welcome',
+        content: 'Welcome to Cortex Docs',
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       },
-    ])
+    ]),
   );
 
   // create a file welcome.json with the welcome content
   const welcomePath = `${rootDir}/welcome.json`;
-  console.log("Creating welcome file at:", welcomePath);
+  console.log('Creating welcome file at:', welcomePath);
 
   try {
     await writeFile(welcomePath, JSON.stringify(welcomeData, null, 2));
-    console.log("Successfully created welcome.json file");
+    console.log('Successfully created welcome.json file');
   } catch (error) {
-    console.error("Error creating welcome.json:", error);
+    console.error('Error creating welcome.json:', error);
   }
-
 
   const configJson: Document[] = await loadDocs();
 
@@ -120,7 +118,7 @@ export const createDoc = async (args: {
   documentParentId?: string;
   title?: string;
 }) => {
-  const { documentParentId, title = "New note" } = args;
+  const { documentParentId, title = 'New note' } = args;
   const rootDir = getRootDir();
   await ensureDir(rootDir);
 
@@ -147,7 +145,7 @@ export const createDoc = async (args: {
 
   // Read existing config.json
   const configPath = `${rootDir}/config.json`;
-  const existingConfig = await readFile(configPath, "utf-8");
+  const existingConfig = await readFile(configPath, 'utf-8');
   const configJson = JSON.parse(existingConfig);
 
   // Add new document to config.json
@@ -162,13 +160,13 @@ export const createDoc = async (args: {
     JSON.stringify(
       [
         {
-          type: "paragraph",
-          content: "",
+          type: 'paragraph',
+          content: '',
         },
       ],
       null,
-      2
-    )
+      2,
+    ),
   );
 
   return newDoc;
@@ -182,7 +180,7 @@ export const deleteDoc = async (args: { id: string }) => {
   try {
     // Read existing config.json
     const configPath = `${rootDir}/config.json`;
-    const existingConfig = await readFile(configPath, "utf-8");
+    const existingConfig = await readFile(configPath, 'utf-8');
     const configJson = JSON.parse(existingConfig);
 
     // Get all documents to delete (including children)
@@ -191,7 +189,7 @@ export const deleteDoc = async (args: { id: string }) => {
 
     // Remove all documents from config.json
     const updatedConfig = configJson.filter(
-      (doc: Document) => !documentsToDelete.includes(doc.id)
+      (doc: Document) => !documentsToDelete.includes(doc.id),
     );
     await writeFile(configPath, JSON.stringify(updatedConfig, null, 2));
 
@@ -209,7 +207,7 @@ export const deleteDoc = async (args: { id: string }) => {
 
     return true;
   } catch (error) {
-    console.error("Error deleting document:", error);
+    console.error('Error deleting document:', error);
     return false;
   }
 };
@@ -241,7 +239,7 @@ export const updateDoc = async (args: {
   try {
     // Read existing config.json
     const configPath = `${rootDir}/config.json`;
-    const existingConfig = await readFile(configPath, "utf-8");
+    const existingConfig = await readFile(configPath, 'utf-8');
     const configJson = JSON.parse(existingConfig);
 
     // Find and update the document
@@ -258,7 +256,7 @@ export const updateDoc = async (args: {
 
     return false;
   } catch (error) {
-    console.error("Error updating document:", error);
+    console.error('Error updating document:', error);
     return false;
   }
 };
@@ -268,7 +266,7 @@ export const getFileContent = async (args: { docId: string }) => {
   await ensureDir(rootDir);
   const { docId } = args;
   const filePath = `${rootDir}/${docId}.json`;
-  const fileContent = await readFile(filePath, "utf-8");
+  const fileContent = await readFile(filePath, 'utf-8');
   const fileJson = JSON.parse(fileContent);
   return fileJson;
 };
@@ -286,8 +284,8 @@ export const saveFileContent = async (args: {
     await writeFile(filePath, JSON.stringify(content, null, 2));
     return { success: true };
   } catch (error) {
-    console.error("Error saving file content:", error);
-    throw new Error("Failed to save file content");
+    console.error('Error saving file content:', error);
+    throw new Error('Failed to save file content');
   }
 };
 
@@ -299,17 +297,17 @@ export const searchDocuments = async (args: { query: string }) => {
   try {
     // Read config.json to get all documents
     const configPath = `${rootDir}/config.json`;
-    const existingConfig = await readFile(configPath, "utf-8");
+    const existingConfig = await readFile(configPath, 'utf-8');
     const configJson = JSON.parse(existingConfig);
 
-    const results: (Document & { matchType: "title" | "content" })[] = [];
+    const results: (Document & { matchType: 'title' | 'content' })[] = [];
     const queryLower = query.toLowerCase();
 
     // Search through all documents
     for (const doc of configJson) {
       // Search in title first (higher priority)
       if (doc.title.toLowerCase().includes(queryLower)) {
-        results.push({ ...doc, matchType: "title" });
+        results.push({ ...doc, matchType: 'title' });
         continue;
       }
 
@@ -317,18 +315,18 @@ export const searchDocuments = async (args: { query: string }) => {
       if (doc.contentId) {
         try {
           const contentPath = `${rootDir}/${doc.id}.json`;
-          const content = await readFile(contentPath, "utf-8");
+          const content = await readFile(contentPath, 'utf-8');
           const contentJson = JSON.parse(content);
 
           // Search in content (assuming content is an array of blocks)
           const contentString = JSON.stringify(contentJson).toLowerCase();
           if (contentString.includes(queryLower)) {
-            results.push({ ...doc, matchType: "content" });
+            results.push({ ...doc, matchType: 'content' });
           }
         } catch (error) {
           // Content file might not exist, skip
           console.log(
-            `Content file for ${doc.id} not found, skipping content search`
+            `Content file for ${doc.id} not found, skipping content search`,
           );
         }
       }
@@ -336,8 +334,8 @@ export const searchDocuments = async (args: { query: string }) => {
 
     // Sort results: title matches first, then by title alphabetically
     results.sort((a, b) => {
-      if (a.matchType === "title" && b.matchType === "content") return -1;
-      if (a.matchType === "content" && b.matchType === "title") return 1;
+      if (a.matchType === 'title' && b.matchType === 'content') return -1;
+      if (a.matchType === 'content' && b.matchType === 'title') return 1;
       return a.title.localeCompare(b.title);
     });
 
@@ -348,7 +346,7 @@ export const searchDocuments = async (args: { query: string }) => {
       return doc;
     });
   } catch (error) {
-    console.error("Error searching documents:", error);
+    console.error('Error searching documents:', error);
     return [];
   }
 };

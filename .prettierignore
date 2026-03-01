@@ -1,0 +1,14 @@
+dist
+dist-electron
+node_modules
+pnpm-lock.yaml
+bun.lock
+package-lock.json
+yarn.lock
+public
+.git
+.vscode
+.idea
+.DS_Store
+*.min.js
+*.min.css

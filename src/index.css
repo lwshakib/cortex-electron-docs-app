@@ -1,5 +1,5 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -122,10 +122,6 @@
   }
 }
 
-
-
-
-
 .drag-css {
   -webkit-app-region: drag;
 }
@@ -133,7 +129,6 @@
 .no-drag-css {
   -webkit-app-region: no-drag;
 }
-
 
 .bn-editor,
 .bn-container {
@@ -166,4 +161,3 @@
   font-size: 0.875rem;
   line-height: 1.5;
 }
-

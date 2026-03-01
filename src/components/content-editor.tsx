@@ -1,20 +1,20 @@
-"use client";
+'use client';
 
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { useDocumentContext } from "@/hooks/use-document-context";
-import "@blocknote/core/fonts/inter.css";
-import { useCreateBlockNote, useEditorChange } from "@blocknote/react";
-import { BlockNoteView } from "@blocknote/shadcn";
-import "@blocknote/shadcn/style.css";
-import { useCallback, useEffect, useState } from "react";
-import ActionBar from "./action-bar";
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { useDocumentContext } from '@/hooks/use-document-context';
+import '@blocknote/core/fonts/inter.css';
+import { useCreateBlockNote, useEditorChange } from '@blocknote/react';
+import { BlockNoteView } from '@blocknote/shadcn';
+import '@blocknote/shadcn/style.css';
+import { useCallback, useEffect, useState } from 'react';
+import ActionBar from './action-bar';
 
 interface Note {
   title?: string;
 }
 
 function ContentEditor({ note }: { note?: Note }) {
-  const [title, setTitle] = useState(note?.title || "");
+  const [title, setTitle] = useState(note?.title || '');
   const { selectedDoc, selectedDocFileContent, updateDocument } =
     useDocumentContext();
 
@@ -24,8 +24,8 @@ function ContentEditor({ note }: { note?: Note }) {
         ? selectedDocFileContent
         : [
             {
-              type: "paragraph",
-              content: "",
+              type: 'paragraph',
+              content: '',
             },
           ],
   });
@@ -55,16 +55,16 @@ function ContentEditor({ note }: { note?: Note }) {
       if (selectedDoc?.id && content && Array.isArray(content)) {
         try {
           // Save content to file system via IPC
-          await window.ipcRenderer.invoke("save-file-content", {
+          await window.ipcRenderer.invoke('save-file-content', {
             docId: selectedDoc.id,
             content: content,
           });
         } catch (error) {
-          console.error("Failed to save editor content:", error);
+          console.error('Failed to save editor content:', error);
         }
       }
     },
-    [selectedDoc?.id]
+    [selectedDoc?.id],
   );
 
   // Debounced save function for editor content
@@ -76,7 +76,7 @@ function ContentEditor({ note }: { note?: Note }) {
 
       return () => clearTimeout(timeoutId);
     },
-    [saveEditorContent]
+    [saveEditorContent],
   );
 
   // Debounced function to update document title
@@ -86,7 +86,7 @@ function ContentEditor({ note }: { note?: Note }) {
         updateDocument(selectedDoc.id, { title: newTitle });
       }
     },
-    [selectedDoc?.id, selectedDoc?.title, updateDocument]
+    [selectedDoc?.id, selectedDoc?.title, updateDocument],
   );
 
   // Debounce title updates
@@ -105,7 +105,7 @@ function ContentEditor({ note }: { note?: Note }) {
   };
 
   const handleTitleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       e.preventDefault();
       editor.focus();
       // Update title immediately on Enter
@@ -128,41 +128,40 @@ function ContentEditor({ note }: { note?: Note }) {
   };
 
   return (
-    <div className="max-h-screen h-screen ">
-      <header className="h-[50px] drag-css">
+    <div className='max-h-screen h-screen '>
+      <header className='h-[50px] drag-css'>
         <ActionBar />
-
       </header>
-      <ScrollArea className="h-[calc(100vh-50px)]">
+      <ScrollArea className='h-[calc(100vh-50px)]'>
         {selectedDoc ? (
           <>
-            <div className="ml-10">
+            <div className='ml-10'>
               <input
-                type="text"
+                type='text'
                 value={title}
                 onChange={handleTitleChange}
                 onKeyDown={handleTitleKeyDown}
-                className="w-full px-3 py-2 bg-transparent focus:outline-none dark:text-white font-bold text-2xl"
-                placeholder="Note title..."
+                className='w-full px-3 py-2 bg-transparent focus:outline-none dark:text-white font-bold text-2xl'
+                placeholder='Note title...'
               />
             </div>
             <BlockNoteView
               editor={editor}
-              theme="dark"
-              className="bg-transparent bn-small-text"
+              theme='dark'
+              className='bg-transparent bn-small-text'
               onSelectionChange={handleSelectionChange}
             />
           </>
         ) : (
-          <div className="flex flex-col items-center justify-center h-full text-center px-8 py-4">
-            <div className="max-w-2xl">
-              <h1 className="text-4xl font-bold text-white mb-4">Cortex</h1>
-              <p className="text-xl text-gray-300 mb-8">
+          <div className='flex flex-col items-center justify-center h-full text-center px-8 py-4'>
+            <div className='max-w-2xl'>
+              <h1 className='text-4xl font-bold text-white mb-4'>Cortex</h1>
+              <p className='text-xl text-gray-300 mb-8'>
                 A document Create, Update, Delete platform
               </p>
 
-              <div className="text-left text-gray-400 space-y-4">
-                <h2 className="text-2xl font-semibold text-white mb-4">
+              <div className='text-left text-gray-400 space-y-4'>
+                <h2 className='text-2xl font-semibold text-white mb-4'>
                   Welcome to Cortex
                 </h2>
 
@@ -174,10 +173,10 @@ function ContentEditor({ note }: { note?: Note }) {
                   organize your ideas.
                 </p>
 
-                <h3 className="text-xl font-semibold text-white mt-6 mb-3">
+                <h3 className='text-xl font-semibold text-white mt-6 mb-3'>
                   Key Features
                 </h3>
-                <ul className="list-disc list-inside space-y-2 ml-4">
+                <ul className='list-disc list-inside space-y-2 ml-4'>
                   <li>
                     Create and organize documents in a hierarchical structure
                   </li>
@@ -187,7 +186,7 @@ function ContentEditor({ note }: { note?: Note }) {
                   <li>Clean, distraction-free writing environment</li>
                 </ul>
 
-                <h3 className="text-xl font-semibold text-white mt-6 mb-3">
+                <h3 className='text-xl font-semibold text-white mt-6 mb-3'>
                   Getting Started
                 </h3>
                 <p>
@@ -197,8 +196,8 @@ function ContentEditor({ note }: { note?: Note }) {
                   knowledge base.
                 </p>
 
-                <div className="mt-8 p-4 bg-gray-800 rounded-lg border border-gray-700">
-                  <p className="text-sm text-gray-300">
+                <div className='mt-8 p-4 bg-gray-800 rounded-lg border border-gray-700'>
+                  <p className='text-sm text-gray-300'>
                     <strong>Tip:</strong> Use the sidebar to navigate between
                     documents. Click the plus icon to create new documents or
                     folders. Right-click on documents for additional options.

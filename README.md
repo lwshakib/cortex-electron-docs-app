@@ -209,13 +209,11 @@ Key build settings in `electron-builder.json5`:
 ### Common Issues
 
 1. **Build Failures**
-
    - Ensure Node.js version is 18 or higher
    - Clear `node_modules` and reinstall dependencies
    - Check for TypeScript compilation errors
 
 2. **Electron Issues**
-
    - Verify Electron version compatibility
    - Check preload script security settings
    - Ensure proper IPC communication setup

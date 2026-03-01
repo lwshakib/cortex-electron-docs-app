@@ -3,11 +3,11 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { BlockNoteEditor } from "@blocknote/core";
+} from '@/components/ui/dropdown-menu';
+import { BlockNoteEditor } from '@blocknote/core';
 
-import { Download, FileCode, FileText, FileType, Mail } from "lucide-react";
-import { toast } from "sonner";
+import { Download, FileCode, FileText, FileType, Mail } from 'lucide-react';
+import { toast } from 'sonner';
 
 interface ExportDropdownProps {
   documentTitle: string;
@@ -19,7 +19,7 @@ export default function ExportDropdown({
   editor,
 }: ExportDropdownProps) {
   const handleExport = async (
-    format: "pdf" | "docx" | "markdown" | "email" | "html"
+    format: 'pdf' | 'docx' | 'markdown' | 'email' | 'html',
   ) => {
     try {
       const contentHtml = await editor.blocksToFullHTML(editor.document);
@@ -42,14 +42,14 @@ export default function ExportDropdown({
 </html>`;
 
       const loadingToast = toast.loading(
-        `Exporting as ${format.toUpperCase()}...`
+        `Exporting as ${format.toUpperCase()}...`,
       );
 
       // Call the export function via IPC
-      const result = await window.ipcRenderer.invoke("export-document", {
+      const result = await window.ipcRenderer.invoke('export-document', {
         format,
         html,
-        title: documentTitle
+        title: documentTitle,
       });
 
       // Dismiss loading toast
@@ -57,7 +57,7 @@ export default function ExportDropdown({
 
       if (result.success) {
         toast.success(
-          `Document exported successfully! Check your Documents/Cortex Exports folder.`
+          `Document exported successfully! Check your Documents/Cortex Exports folder.`,
         );
       } else {
         toast.error(`Failed to export document as ${format.toUpperCase()}`);
@@ -69,43 +69,43 @@ export default function ExportDropdown({
   };
 
   return (
-    <div className="relative">
+    <div className='relative'>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <button
-            className="h-8 w-8 p-0 hover:bg-accent rounded-full transition-colors flex items-center justify-center bg-primary text-primary-foreground"
+            className='h-8 w-8 p-0 hover:bg-accent rounded-full transition-colors flex items-center justify-center bg-primary text-primary-foreground'
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              console.log("Export button clicked");
+              console.log('Export button clicked');
             }}
           >
-            <Download className="h-4 w-4" />
+            <Download className='h-4 w-4' />
           </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent
-          align="end"
-          className="w-48 z-[9999]"
+          align='end'
+          className='w-48 z-[9999]'
           sideOffset={5}
         >
-          <DropdownMenuItem onClick={() => handleExport("pdf")}>
-            <FileText className="mr-2 h-4 w-4" />
+          <DropdownMenuItem onClick={() => handleExport('pdf')}>
+            <FileText className='mr-2 h-4 w-4' />
             Export as PDF
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => handleExport("docx")}>
-            <FileType className="mr-2 h-4 w-4" />
+          <DropdownMenuItem onClick={() => handleExport('docx')}>
+            <FileType className='mr-2 h-4 w-4' />
             Export as DOCX
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => handleExport("markdown")}>
-            <FileCode className="mr-2 h-4 w-4" />
+          <DropdownMenuItem onClick={() => handleExport('markdown')}>
+            <FileCode className='mr-2 h-4 w-4' />
             Export as Markdown
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => handleExport("email")}>
-            <Mail className="mr-2 h-4 w-4" />
+          <DropdownMenuItem onClick={() => handleExport('email')}>
+            <Mail className='mr-2 h-4 w-4' />
             Export as Email Template
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => handleExport("html")}>
-            <FileCode className="mr-2 h-4 w-4" />
+          <DropdownMenuItem onClick={() => handleExport('html')}>
+            <FileCode className='mr-2 h-4 w-4' />
             Export as HTML
           </DropdownMenuItem>
         </DropdownMenuContent>

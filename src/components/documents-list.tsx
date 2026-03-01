@@ -1,8 +1,8 @@
-import { DocumentContext } from "@/context/document-provider";
-import { cn } from "@/lib/utils";
-import { FileText } from "lucide-react";
-import { useContext, useEffect, useState } from "react";
-import DocItem from "./doc-item";
+import { DocumentContext } from '@/context/document-provider';
+import { cn } from '@/lib/utils';
+import { FileText } from 'lucide-react';
+import { useContext, useEffect, useState } from 'react';
+import DocItem from './doc-item';
 
 interface Document {
   id: string;
@@ -25,7 +25,7 @@ export default function DocumentsList({
   const documentContext = useContext(DocumentContext);
 
   if (!documentContext) {
-    throw new Error("DocumentsList must be used within DocumentProvider");
+    throw new Error('DocumentsList must be used within DocumentProvider');
   }
 
   const { setSelectedDoc } = documentContext;
@@ -50,9 +50,9 @@ export default function DocumentsList({
           paddingLeft: level ? `${level * 12 + 25}px` : undefined,
         }}
         className={cn(
-          "hidden text-sm text-muted-foreground/80 font-medium",
-          expanded && "last:block",
-          level === 0 && "hidden"
+          'hidden text-sm text-muted-foreground/80 font-medium',
+          expanded && 'last:block',
+          level === 0 && 'hidden',
         )}
       >
         No documents inside

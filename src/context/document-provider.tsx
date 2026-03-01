@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from 'react';
 
 interface Document {
   id: string;
@@ -18,7 +18,7 @@ interface DocumentContextProps {
   selectedDocFileContent: unknown | null;
   createDocument: (
     documentParentId?: string,
-    title?: string
+    title?: string,
   ) => Promise<Document | null>;
   updateDocument: (id: string, updates: Partial<Document>) => Promise<boolean>;
   deleteDocument: (id: string) => Promise<boolean>;
@@ -34,7 +34,7 @@ interface DocumentProviderProps {
 }
 
 export const DocumentContext = React.createContext<DocumentContextProps | null>(
-  null
+  null,
 );
 
 export default function DocumentProvider({ children }: DocumentProviderProps) {
@@ -60,7 +60,7 @@ export default function DocumentProvider({ children }: DocumentProviderProps) {
       }
       return null;
     },
-    []
+    [],
   );
 
   // Helper function to update documents recursively
@@ -68,7 +68,7 @@ export default function DocumentProvider({ children }: DocumentProviderProps) {
     (
       docs: Document[] | null,
       id: string,
-      updates: Partial<Document>
+      updates: Partial<Document>,
     ): Document[] | null => {
       if (!docs) return null;
 
@@ -80,7 +80,7 @@ export default function DocumentProvider({ children }: DocumentProviderProps) {
           const updatedChildren = updateDocumentsRecursively(
             doc.children,
             id,
-            updates
+            updates,
           );
           return {
             ...doc,
@@ -90,7 +90,7 @@ export default function DocumentProvider({ children }: DocumentProviderProps) {
         return doc;
       });
     },
-    []
+    [],
   );
 
   // Helper function to remove document recursively
@@ -107,20 +107,20 @@ export default function DocumentProvider({ children }: DocumentProviderProps) {
         return true;
       });
     },
-    []
+    [],
   );
 
   async function fetchDocs() {
     try {
       setIsLoading(true);
       setError(null);
-      const docs = await window.ipcRenderer.invoke("give-me-docs");
+      const docs = await window.ipcRenderer.invoke('give-me-docs');
       setDocuments(docs);
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : "Failed to fetch documents"
+        err instanceof Error ? err.message : 'Failed to fetch documents',
       );
-      console.error("Error fetching documents:", err);
+      console.error('Error fetching documents:', err);
     } finally {
       setIsLoading(false);
     }
@@ -128,15 +128,15 @@ export default function DocumentProvider({ children }: DocumentProviderProps) {
 
   async function createDocument(
     documentParentId?: string,
-    title?: string
+    title?: string,
   ): Promise<Document | null> {
     try {
       setIsLoading(true);
       setError(null);
 
-      const newDoc = await window.ipcRenderer.invoke("create-doc", {
+      const newDoc = await window.ipcRenderer.invoke('create-doc', {
         documentParentId: documentParentId,
-        title: title || "Untitled Document",
+        title: title || 'Untitled Document',
       });
 
       if (documentParentId) {
@@ -152,7 +152,7 @@ export default function DocumentProvider({ children }: DocumentProviderProps) {
                 ...(findDocById(prevDocs, documentParentId)?.children || []),
                 { ...newDoc, children: [] },
               ],
-            }
+            },
           );
           return updatedDocs;
         });
@@ -167,9 +167,9 @@ export default function DocumentProvider({ children }: DocumentProviderProps) {
       return newDoc;
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : "Failed to create document"
+        err instanceof Error ? err.message : 'Failed to create document',
       );
-      console.error("Error creating document:", err);
+      console.error('Error creating document:', err);
       return null;
     } finally {
       setIsLoading(false);
@@ -178,26 +178,26 @@ export default function DocumentProvider({ children }: DocumentProviderProps) {
 
   async function updateDocument(
     id: string,
-    updates: Partial<Document>
+    updates: Partial<Document>,
   ): Promise<boolean> {
     try {
       setIsLoading(true);
       setError(null);
 
-      const success = await window.ipcRenderer.invoke("update-doc", {
+      const success = await window.ipcRenderer.invoke('update-doc', {
         id,
         updates,
       });
 
       if (success) {
         setDocuments((prevDocs) =>
-          updateDocumentsRecursively(prevDocs, id, updates)
+          updateDocumentsRecursively(prevDocs, id, updates),
         );
 
         // Update selected document if it's the one being updated
         if (selectedDoc?.id === id) {
           setSelectedDoc((prev) =>
-            prev ? { ...prev, ...updates, updatedAt: new Date() } : null
+            prev ? { ...prev, ...updates, updatedAt: new Date() } : null,
           );
         }
 
@@ -206,9 +206,9 @@ export default function DocumentProvider({ children }: DocumentProviderProps) {
       return false;
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : "Failed to update document"
+        err instanceof Error ? err.message : 'Failed to update document',
       );
-      console.error("Error updating document:", err);
+      console.error('Error updating document:', err);
       return false;
     } finally {
       setIsLoading(false);
@@ -220,7 +220,7 @@ export default function DocumentProvider({ children }: DocumentProviderProps) {
       setIsLoading(true);
       setError(null);
 
-      const success = await window.ipcRenderer.invoke("delete-doc", { id });
+      const success = await window.ipcRenderer.invoke('delete-doc', { id });
 
       if (success) {
         setDocuments((prevDocs) => removeDocumentRecursively(prevDocs, id));
@@ -235,9 +235,9 @@ export default function DocumentProvider({ children }: DocumentProviderProps) {
       return false;
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : "Failed to delete document"
+        err instanceof Error ? err.message : 'Failed to delete document',
       );
-      console.error("Error deleting document:", err);
+      console.error('Error deleting document:', err);
       return false;
     } finally {
       setIsLoading(false);
@@ -250,15 +250,15 @@ export default function DocumentProvider({ children }: DocumentProviderProps) {
     try {
       setIsLoading(true);
       setError(null);
-      const results = await window.ipcRenderer.invoke("search-documents", {
+      const results = await window.ipcRenderer.invoke('search-documents', {
         query: query.trim(),
       });
       return results;
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : "Failed to search documents"
+        err instanceof Error ? err.message : 'Failed to search documents',
       );
-      console.error("Error searching documents:", err);
+      console.error('Error searching documents:', err);
       return [];
     } finally {
       setIsLoading(false);
@@ -269,7 +269,7 @@ export default function DocumentProvider({ children }: DocumentProviderProps) {
     (id: string): Document | null => {
       return findDocById(documents, id);
     },
-    [documents, findDocById]
+    [documents, findDocById],
   );
 
   const clearError = useCallback(() => {
@@ -289,15 +289,15 @@ export default function DocumentProvider({ children }: DocumentProviderProps) {
     try {
       setIsLoading(true);
       setError(null);
-      const fileContent = await window.ipcRenderer.invoke("get-file-content", {
+      const fileContent = await window.ipcRenderer.invoke('get-file-content', {
         docId: selectedDoc.id,
       });
       setSelectedDocFileContent(fileContent);
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : "Failed to fetch file content"
+        err instanceof Error ? err.message : 'Failed to fetch file content',
       );
-      console.error("Error fetching file content:", err);
+      console.error('Error fetching file content:', err);
       setSelectedDocFileContent(null);
     } finally {
       setIsLoading(false);

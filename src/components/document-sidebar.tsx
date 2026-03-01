@@ -1,12 +1,12 @@
-import { FileText, Plus, Search, X, Github } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
-import { toast } from "sonner";
-import { useDocumentContext } from "../hooks/use-document-context";
-import DocItem from "./doc-item";
-import DocumentsList from "./documents-list";
-import SearchResultItem from "./search-result-item";
-import { ScrollArea } from "./ui/scroll-area";
-import logo from "/logo.svg";
+import { FileText, Plus, Search, X, Github } from 'lucide-react';
+import { useCallback, useEffect, useState } from 'react';
+import { toast } from 'sonner';
+import { useDocumentContext } from '../hooks/use-document-context';
+import DocItem from './doc-item';
+import DocumentsList from './documents-list';
+import SearchResultItem from './search-result-item';
+import { ScrollArea } from './ui/scroll-area';
+import logo from '/logo.svg';
 
 interface DocumentItem {
   id: string;
@@ -18,13 +18,13 @@ interface DocumentItem {
 
 function DocumentSidebar() {
   const { documents, createDocument, searchDocuments } = useDocumentContext();
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<DocumentItem[]>([]);
   const [isSearching, setIsSearching] = useState(false);
 
   const handleCreateDocument = async () => {
     await createDocument();
-    toast.success("Document created successfully!");
+    toast.success('Document created successfully!');
   };
 
   const handleSearch = useCallback(
@@ -40,13 +40,13 @@ function DocumentSidebar() {
         const results = await searchDocuments(query);
         setSearchResults(results);
       } catch (error) {
-        console.error("Search error:", error);
+        console.error('Search error:', error);
         setSearchResults([]);
       } finally {
         setIsSearching(false);
       }
     },
-    [searchDocuments]
+    [searchDocuments],
   );
 
   // Debounced search
@@ -61,10 +61,10 @@ function DocumentSidebar() {
   // Keyboard shortcut for search
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault();
         const searchInput = document.querySelector(
-          'input[placeholder="Search documents..."]'
+          'input[placeholder="Search documents..."]',
         ) as HTMLInputElement;
         if (searchInput) {
           searchInput.focus();
@@ -73,90 +73,97 @@ function DocumentSidebar() {
       }
     };
 
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
   }, []);
 
   return (
-    <div className="w-full h-screen flex flex-col">
+    <div className='w-full h-screen flex flex-col'>
       {/* Header */}
-      <div className="p-4">
-        <div className="flex items-center justify-between drag-css">
-          <div className="flex items-center">
-            <img src={logo} alt="Cortex Logo" className="h-8 w-8" />
-            <h2 className="text-lg font-semibold text-foreground ml-2">Cortex</h2>
+      <div className='p-4'>
+        <div className='flex items-center justify-between drag-css'>
+          <div className='flex items-center'>
+            <img src={logo} alt='Cortex Logo' className='h-8 w-8' />
+            <h2 className='text-lg font-semibold text-foreground ml-2'>
+              Cortex
+            </h2>
           </div>
           <button
-            onClick={() => window.open("https://github.com/lwshakib/cortex-electron-docs-app", "_blank")}
-            className="h-8 w-8 p-0 hover:bg-muted/50 rounded-md transition-colors no-drag-css flex items-center justify-center text-muted-foreground hover:text-foreground"
-            title="View on GitHub"
+            onClick={() =>
+              window.open(
+                'https://github.com/lwshakib/cortex-electron-docs-app',
+                '_blank',
+              )
+            }
+            className='h-8 w-8 p-0 hover:bg-muted/50 rounded-md transition-colors no-drag-css flex items-center justify-center text-muted-foreground hover:text-foreground'
+            title='View on GitHub'
           >
-            <Github className="h-4 w-4" />
+            <Github className='h-4 w-4' />
           </button>
         </div>
       </div>
 
-      <div className="px-4 py-2">
+      <div className='px-4 py-2'>
         <DocItem
           icon={Plus}
-          label="Create new document"
+          label='Create new document'
           onClick={handleCreateDocument}
         />
       </div>
       {/* Search */}
-      <div className="p-4">
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+      <div className='p-4'>
+        <div className='relative'>
+          <Search className='absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground' />
           <input
-            type="text"
-            placeholder="Search documents..."
+            type='text'
+            placeholder='Search documents...'
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-20 py-2 text-sm bg-background/50 border border-border/20 rounded-md focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
+            className='w-full pl-10 pr-20 py-2 text-sm bg-background/50 border border-border/20 rounded-md focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent'
           />
           {!searchQuery && !isSearching && (
-            <kbd className="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
-              <span className="text-xs">⌘</span>K
+            <kbd className='absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100'>
+              <span className='text-xs'>⌘</span>K
             </kbd>
           )}
           {searchQuery && (
             <button
-              onClick={() => setSearchQuery("")}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground hover:text-foreground"
+              onClick={() => setSearchQuery('')}
+              className='absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground hover:text-foreground'
             >
-              <X className="h-4 w-4" />
+              <X className='h-4 w-4' />
             </button>
           )}
           {isSearching && (
-            <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-              <div className="animate-spin h-4 w-4 border-2 border-muted-foreground border-t-transparent rounded-full"></div>
+            <div className='absolute right-3 top-1/2 transform -translate-y-1/2'>
+              <div className='animate-spin h-4 w-4 border-2 border-muted-foreground border-t-transparent rounded-full'></div>
             </div>
           )}
           {searchQuery && !isSearching && searchResults.length === 0 && (
-            <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-              <div className="text-xs text-muted-foreground">No results</div>
+            <div className='absolute right-3 top-1/2 transform -translate-y-1/2'>
+              <div className='text-xs text-muted-foreground'>No results</div>
             </div>
           )}
         </div>
       </div>
 
       {/* Document List */}
-      <ScrollArea className="flex-1 p-2 h-[200px]">
+      <ScrollArea className='flex-1 p-2 h-[200px]'>
         {searchQuery ? (
           <div>
-            <div className="flex items-center justify-between text-sm text-muted-foreground mb-2 px-2">
+            <div className='flex items-center justify-between text-sm text-muted-foreground mb-2 px-2'>
               <span>
                 Search results for "{searchQuery}" ({searchResults.length})
               </span>
               <button
-                onClick={() => setSearchQuery("")}
-                className="text-xs hover:text-foreground transition-colors"
+                onClick={() => setSearchQuery('')}
+                className='text-xs hover:text-foreground transition-colors'
               >
                 Clear search
               </button>
             </div>
             {searchResults.length > 0 ? (
-              <div className="space-y-1">
+              <div className='space-y-1'>
                 {searchResults.map((result) => (
                   <SearchResultItem
                     key={result.id}
@@ -166,7 +173,7 @@ function DocumentSidebar() {
                 ))}
               </div>
             ) : (
-              <div className="text-center text-muted-foreground py-8">
+              <div className='text-center text-muted-foreground py-8'>
                 No documents found
               </div>
             )}
@@ -175,21 +182,21 @@ function DocumentSidebar() {
           documents.length > 0 ? (
             <DocumentsList documents={documents} />
           ) : (
-            <div className="text-center text-muted-foreground py-8">
-              <div className="flex flex-col items-center space-y-2">
-                <FileText className="h-12 w-12 text-muted-foreground/50" />
-                <p className="text-sm">No documents yet</p>
-                <p className="text-xs">
+            <div className='text-center text-muted-foreground py-8'>
+              <div className='flex flex-col items-center space-y-2'>
+                <FileText className='h-12 w-12 text-muted-foreground/50' />
+                <p className='text-sm'>No documents yet</p>
+                <p className='text-xs'>
                   Create your first document to get started
                 </p>
               </div>
             </div>
           )
         ) : (
-          <div className="text-center text-muted-foreground py-8">
-            <div className="animate-pulse">
-              <div className="h-4 bg-muted rounded w-3/4 mx-auto mb-2"></div>
-              <div className="h-3 bg-muted rounded w-1/2 mx-auto"></div>
+          <div className='text-center text-muted-foreground py-8'>
+            <div className='animate-pulse'>
+              <div className='h-4 bg-muted rounded w-3/4 mx-auto mb-2'></div>
+              <div className='h-3 bg-muted rounded w-1/2 mx-auto'></div>
             </div>
           </div>
         )}
