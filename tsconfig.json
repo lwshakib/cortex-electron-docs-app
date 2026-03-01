@@ -23,8 +23,9 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "types": ["vitest/globals", "@testing-library/jest-dom"]
   },
-  "include": ["src", "electron"],
+  "include": ["src", "electron", "__tests__"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

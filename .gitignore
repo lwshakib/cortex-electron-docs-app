@@ -22,3 +22,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Tests
+playwright-report
+test-results
+
+# Electron Build
+dist-electron
+release

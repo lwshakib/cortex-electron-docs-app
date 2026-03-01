@@ -98,14 +98,17 @@ export default function DocumentProvider({ children }: DocumentProviderProps) {
     (docs: Document[] | null, id: string): Document[] | null => {
       if (!docs) return null;
 
-      return docs.filter((doc) => {
-        if (doc.id === id) return false;
-        if (doc.children) {
-          const updatedChildren = removeDocumentRecursively(doc.children, id);
-          doc.children = updatedChildren || [];
-        }
-        return true;
-      });
+      return docs
+        .filter((doc) => doc.id !== id)
+        .map((doc) => {
+          if (doc.children && doc.children.length > 0) {
+            return {
+              ...doc,
+              children: removeDocumentRecursively(doc.children, id) || [],
+            };
+          }
+          return doc;
+        });
     },
     [],
   );
