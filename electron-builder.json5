@@ -17,7 +17,7 @@
   ],
   compression: 'maximum',
   extraMetadata: {
-    version: '0.0.0',
+    version: '1.0.0',
     description: 'A modern, feature-rich desktop docs and note taking application built with Electron, React, and TypeScript.',
     author: 'Shakib Khan <leadwithshakib@gmail.com>',
     homepage: 'https://github.com/lwshakib/cortex-electron-docs-app',
