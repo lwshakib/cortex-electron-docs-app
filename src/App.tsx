@@ -1,5 +1,6 @@
 import DocumentContent from './components/document-content';
 import DocumentSidebar from './components/document-sidebar';
+import Updater from './components/updater';
 import {
   ResizableHandle,
   ResizablePanel,
@@ -9,6 +10,7 @@ import {
 function App() {
   return (
     <div className='min-h-screen bg-background/90 backdrop-blur-md relative'>
+      <Updater />
       <ResizablePanelGroup direction='horizontal' className='h-screen'>
         <ResizablePanel
           defaultSize={25}

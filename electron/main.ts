@@ -138,6 +138,35 @@ function createWindow() {
     win?.close();
   });
 
+  // --- Auto Updater Events ---
+  autoUpdater.on('checking-for-update', () => {
+    win?.webContents.send('update-message', 'Checking for update...');
+  });
+
+  autoUpdater.on('update-available', (info) => {
+    win?.webContents.send('update-message', 'Update available.', info);
+  });
+
+  autoUpdater.on('update-not-available', (info) => {
+    win?.webContents.send('update-message', 'Update not available.', info);
+  });
+
+  autoUpdater.on('error', (err) => {
+    win?.webContents.send('update-message', `Error in auto-updater. ${err}`);
+  });
+
+  autoUpdater.on('download-progress', (progressObj) => {
+    win?.webContents.send('update-download-progress', progressObj);
+  });
+
+  autoUpdater.on('update-downloaded', (info) => {
+    win?.webContents.send('update-downloaded', info);
+  });
+
+  ipcMain.handle('app:quit-and-install', () => {
+    autoUpdater.quitAndInstall();
+  });
+
   if (VITE_DEV_SERVER_URL) {
     win.loadURL(VITE_DEV_SERVER_URL);
     win?.webContents.openDevTools();
