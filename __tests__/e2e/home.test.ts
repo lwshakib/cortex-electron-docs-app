@@ -14,7 +14,11 @@ test.beforeAll(async () => {
   // Launch Electron with the built main.js
   // The app needs `dist/index.html` to exist, so run `bun run build` first.
   electronApp = await electron.launch({
-    args: [path.join(__dirname, '../../dist-electron/main.js')],
+    args: [
+      path.join(__dirname, '../../dist-electron/main.js'),
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+    ],
     env: {
       ...process.env,
       NODE_ENV: 'production',

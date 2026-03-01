@@ -12,7 +12,11 @@ let window: Page;
 
 test.beforeAll(async () => {
   electronApp = await electron.launch({
-    args: [path.join(__dirname, '../../dist-electron/main.js')],
+    args: [
+      path.join(__dirname, '../../dist-electron/main.js'),
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+    ],
     env: {
       ...process.env,
       NODE_ENV: 'production',
