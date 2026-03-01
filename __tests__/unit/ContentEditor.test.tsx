@@ -36,6 +36,11 @@ vi.mock('@blocknote/shadcn', () => ({
   BlockNoteView: () => <div data-testid='blocknote-view' />,
 }));
 
+/**
+ * Unit tests for the ContentEditor component.
+ * Verifies that the title updates correctly, debouncing works, and
+ * context functions are called appropriately.
+ */
 describe('ContentEditor Component', () => {
   it('updates the title when input changes', async () => {
     render(

@@ -2,9 +2,15 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import ActionBar from '../../src/components/action-bar';
 
+/**
+ * Unit tests for the ActionBar component.
+ * Verifies that the window control buttons (minimize, maximize, close)
+ * correctly emit the appropriate IPC signals.
+ */
 describe('ActionBar Component', () => {
   beforeEach(() => {
-    // Mock window.ipcRenderer
+    // Mock window.ipcRenderer for the testing environment
+    // This allows us to track button clicks without having a real Electron environment
     Object.defineProperty(window, 'ipcRenderer', {
       value: {
         send: vi.fn(),

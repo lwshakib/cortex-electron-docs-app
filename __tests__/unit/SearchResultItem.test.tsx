@@ -19,6 +19,11 @@ const mockContext = {
   selectedDocFileContent: null,
 };
 
+/**
+ * Unit tests for the SearchResultItem component.
+ * Focuses on query highlighting and document selection when
+ * clicked from the search results.
+ */
 describe('SearchResultItem Component', () => {
   const mockDoc = {
     id: '1',

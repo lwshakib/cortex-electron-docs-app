@@ -14,6 +14,10 @@ interface ExportDropdownProps {
   editor: BlockNoteEditor;
 }
 
+/**
+ * Dropdown menu for exporting the current document.
+ * converts BlockNote blocks to HTML and dispatches export tasks to Electron.
+ */
 export default function ExportDropdown({
   documentTitle,
   editor,

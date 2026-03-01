@@ -16,6 +16,10 @@ interface DocumentItem {
   children?: DocumentItem[];
 }
 
+/**
+ * Main sidebar component for document navigation.
+ * Handles document creation, full-text search, and global keyboard shortcuts.
+ */
 function DocumentSidebar() {
   const { documents, createDocument, searchDocuments } = useDocumentContext();
   const [searchQuery, setSearchQuery] = useState('');

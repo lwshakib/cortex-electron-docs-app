@@ -15,15 +15,10 @@ import {
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-// The built directory structure
-//
-// ├─┬─┬ dist
-// │ │ └── index.html
-// │ │
-// │ ├─┬ dist-electron
-// │ │ ├── main.js
-// │ │ └── preload.mjs
-// │
+/**
+ * Define the application root path, which is one level up from the current directory
+ * (pointing to the root of the project where 'dist' and 'package.json' reside).
+ */
 process.env.APP_ROOT = path.join(__dirname, '..');
 
 // 🚧 Use ['ENV_NAME'] avoid vite:define plugin - Vite@2.x
@@ -32,6 +27,9 @@ export const MAIN_DIST = path.join(process.env.APP_ROOT, 'dist-electron');
 export const RENDERER_DIST = path.join(process.env.APP_ROOT, 'dist');
 
 // Platform-specific icon paths
+/**
+ * Utility function to get the correct icon path based on the current operating system.
+ */
 const getIconPath = (): string => {
   const platform = process.platform;
   const basePath = process.env.APP_ROOT;
@@ -55,26 +53,28 @@ process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL
 
 let win: BrowserWindow | null;
 
+/**
+ * Main function to initialize and create the browser window.
+ */
 function createWindow() {
   win = new BrowserWindow({
     width: 1200,
     height: 670,
-    show: false,
+    show: false, // Initially hidden to prevent white flash
     autoHideMenuBar: true,
     center: true,
     title: 'Cortex - Notes App',
-    frame: false,
-    vibrancy: 'under-window',
+    frame: false, // Frameless for custom title bar
+    vibrancy: 'under-window', // macOS glass effect
     visualEffectState: 'active',
-    titleBarStyle: 'hidden',
+    titleBarStyle: 'hidden', // Required for frameless macOS window
     trafficLightPosition: { x: 15, y: 10 },
     transparent: true,
-    // backgroundColor: "#00000000",
     icon: iconPath,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.mjs'),
-      sandbox: true,
-      contextIsolation: true,
+      preload: path.join(__dirname, 'preload.mjs'), // Important for secure IPC
+      sandbox: true, // Recommended for security
+      contextIsolation: true, // Prevents renderer from accessing Electron internals
     },
   });
 
@@ -91,6 +91,9 @@ function createWindow() {
   win.webContents.on('did-finish-load', () => {
     win?.webContents.send('main-process-message', new Date().toLocaleString());
   });
+
+  // --- Document Management IPC Handlers ---
+  // These map UI requests to the file system operations in ./lib/index.ts
 
   ipcMain.handle('give-me-docs', async () => {
     const docs = await loadDocs();
@@ -121,6 +124,8 @@ function createWindow() {
     return await searchDocuments(args);
   });
 
+  // --- Window Control IPC Listeners ---
+
   ipcMain.on('win:minimize', () => {
     win?.minimize();
   });
@@ -139,6 +144,8 @@ function createWindow() {
   });
 
   // --- Auto Updater Events ---
+  // Listen for update events and relay them to the renderer (UI)
+
   autoUpdater.on('checking-for-update', () => {
     win?.webContents.send('update-message', 'Checking for update...');
   });
@@ -163,6 +170,9 @@ function createWindow() {
     win?.webContents.send('update-downloaded', info);
   });
 
+  /**
+   * Final hook triggered by the user to restart and install the new version.
+   */
   ipcMain.handle('app:quit-and-install', () => {
     autoUpdater.quitAndInstall();
   });

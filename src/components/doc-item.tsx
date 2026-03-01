@@ -26,6 +26,10 @@ type DocItemProps = {
   icon?: LucideIcon;
 };
 
+/**
+ * Represents a single document entry in the sidebar.
+ * Handles selection, expansion of children, and CRUD actions (create/delete).
+ */
 export default function DocItem({
   label,
   onClick,

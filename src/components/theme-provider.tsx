@@ -7,6 +7,10 @@ type ThemeProviderProps = {
   storageKey?: string;
 };
 
+/**
+ * Provider component for the application theme.
+ * syncs theme preference with local storage and applies classes to the document element.
+ */
 export function ThemeProvider({
   children,
   defaultTheme = 'system',

@@ -28,6 +28,11 @@ const renderWithContext = (ui: React.ReactElement) => {
   );
 };
 
+/**
+ * Unit tests for the DocItem component.
+ * Verifies rendering, interactions (clicks/expansion), and
+ * integration with the DocumentContext for CRUD functionality.
+ */
 describe('DocItem Component', () => {
   it('renders the label correctly', () => {
     renderWithContext(<DocItem label='Test Document' onClick={() => {}} />);

@@ -20,6 +20,10 @@ interface DocumentItem {
   children?: DocumentItem[];
 }
 
+/**
+ * Displays a single document as a search result.
+ * Includes text highlighting for title and content matches.
+ */
 export default function SearchResultItem({
   document,
   searchQuery,

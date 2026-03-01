@@ -4,23 +4,42 @@ import { homedir } from 'os';
 import { v4 as uuid } from 'uuid';
 import welcomeData from '../constants/welcome.json';
 
+/**
+ * The name of the hidden directory where app data is stored.
+ */
 export const appDirectoryName = '.cortex';
+
+/**
+ * Returns the absolute path to the root directory of the application's data.
+ * The directory is located in the user's home folder.
+ */
 export const getRootDir = () => {
   return `${homedir()}/${appDirectoryName}`;
 };
 
+/**
+ * Represents a document structure in the application.
+ */
 type Document = {
-  id: string;
-  documentParentId?: string;
-  title: string;
-  contentId?: string;
-  children?: Document[];
+  id: string; // Unique identifier for the document
+  documentParentId?: string; // ID of the parent document, if any
+  title: string; // The display title of the document
+  contentId?: string; // ID of the file containing the actual content
+  children?: Document[]; // List of nested child documents
 };
 
+/**
+ * Converts a flat array of documents into a hierarchical tree structure.
+ * This is used for displaying nested folders/files in the sidebar.
+ *
+ * @param docs - Flat list of all documents from config.json
+ * @returns An array of root-level documents with their children arrays populated
+ */
 export const buildHierarchy = (docs: Document[]): Document[] => {
   const docsMap = new Map<string, Document>();
 
   // Step 1: Initialize map entries with empty children arrays
+  // We first map all documents by ID for quick lookup
   docs.forEach((doc) => {
     docsMap.set(doc.id, { ...doc, children: [] });
   });
@@ -28,6 +47,7 @@ export const buildHierarchy = (docs: Document[]): Document[] => {
   const rootDocs: Document[] = [];
 
   // Step 2: Link children to parents
+  // We iterate through the list and push each document to its parent's children array
   docs.forEach((doc) => {
     if (doc.documentParentId) {
       const parent = docsMap.get(doc.documentParentId);
@@ -42,13 +62,17 @@ export const buildHierarchy = (docs: Document[]): Document[] => {
   return rootDocs;
 };
 
+/**
+ * Entry point for loading all documents. Ensures root directory exists,
+ * checks for config validity, and initiates the hierarchy building.
+ */
 export const loadDocs = async (): Promise<Document[]> => {
   const rootDir = getRootDir();
   await ensureDir(rootDir);
 
   const checkConfig = await isConfigAvailable();
   if (checkConfig) {
-    // find a file config.json
+    // find a file config.json which acts as the database of document metadata
     const configPath = `${rootDir}/config.json`;
     const config = await readFile(configPath, 'utf-8');
     const configJson = JSON.parse(config);
@@ -56,19 +80,22 @@ export const loadDocs = async (): Promise<Document[]> => {
     const docs = buildHierarchy(configJson);
     return docs;
   } else {
+    // If no config exists, create the initial environment
     return await createConfigAndWelcomeFile();
   }
 };
 
+/**
+ * Verifies if the configuration file (config.json) exists in the app root.
+ */
 export const isConfigAvailable = async () => {
   const rootDir = getRootDir();
   await ensureDir(rootDir);
 
-  // find a file config.json
   const configPath = `${rootDir}/config.json`;
 
   try {
-    // Check if config.json file exists
+    // Check if config.json file exists and is accessible
     const configExists = await fs
       .access(configPath)
       .then(() => true)
@@ -79,11 +106,14 @@ export const isConfigAvailable = async () => {
   }
 };
 
+/**
+ * Initializes the app directory with a default configuration and a welcome note.
+ */
 export const createConfigAndWelcomeFile = async (): Promise<Document[]> => {
   const rootDir = getRootDir();
   await ensureDir(rootDir);
 
-  // create a file config.json
+  // Create the initial metadata file (database)
   const configPath = `${rootDir}/config.json`;
   await writeFile(
     configPath,
@@ -98,7 +128,7 @@ export const createConfigAndWelcomeFile = async (): Promise<Document[]> => {
     ]),
   );
 
-  // create a file welcome.json with the welcome content
+  // Create the actual content file for the welcome document
   const welcomePath = `${rootDir}/welcome.json`;
   console.log('Creating welcome file at:', welcomePath);
 
@@ -109,11 +139,15 @@ export const createConfigAndWelcomeFile = async (): Promise<Document[]> => {
     console.error('Error creating welcome.json:', error);
   }
 
+  // Load the newly created documents
   const configJson: Document[] = await loadDocs();
 
   return configJson;
 };
 
+/**
+ * Creates a new document, either at the root level or nested inside a parent.
+ */
 export const createDoc = async (args: {
   documentParentId?: string;
   title?: string;
@@ -124,6 +158,7 @@ export const createDoc = async (args: {
 
   let newDoc;
 
+  // Generate unique IDs and timestamps for the new doc
   if (documentParentId) {
     newDoc = {
       id: uuid(),
@@ -143,16 +178,17 @@ export const createDoc = async (args: {
     };
   }
 
-  // Read existing config.json
+  // Read existing metadata from config.json
   const configPath = `${rootDir}/config.json`;
   const existingConfig = await readFile(configPath, 'utf-8');
   const configJson = JSON.parse(existingConfig);
 
-  // Add new document to config.json
+  // append the new document metadata and save
   configJson.push(newDoc);
   await writeFile(configPath, JSON.stringify(configJson, null, 2));
 
-  // Create new document file
+  // Create the actual content file (using the same ID as metadata)
+  // Initializes with a default empty blocknote paragraph
   const docFilePath = `${rootDir}/${newDoc.id}.json`;
 
   await writeFile(
@@ -172,35 +208,39 @@ export const createDoc = async (args: {
   return newDoc;
 };
 
+/**
+ * Deletes a document and all of its recursively nested children.
+ * Both the metadata (in config.json) and physical content files are removed.
+ */
 export const deleteDoc = async (args: { id: string }) => {
   const { id } = args;
   const rootDir = getRootDir();
   await ensureDir(rootDir);
 
   try {
-    // Read existing config.json
+    // Read the database metadata
     const configPath = `${rootDir}/config.json`;
     const existingConfig = await readFile(configPath, 'utf-8');
     const configJson = JSON.parse(existingConfig);
 
-    // Get all documents to delete (including children)
+    // Identify all children that need to be deleted as part of a folder deletion
     const documentsToDelete = getAllChildIds(configJson, id);
-    documentsToDelete.push(id); // Add the parent document itself
+    documentsToDelete.push(id); // Include the requested document itself
 
-    // Remove all documents from config.json
+    // Filter out the deleted IDs from the metadata and save back to config.json
     const updatedConfig = configJson.filter(
       (doc: Document) => !documentsToDelete.includes(doc.id),
     );
     await writeFile(configPath, JSON.stringify(updatedConfig, null, 2));
 
-    // Delete all document files
+    // Delete the physical content files (.json) for each ID
     for (const docId of documentsToDelete) {
       const docFilePath = `${rootDir}/${docId}.json`;
       try {
         await fs.unlink(docFilePath);
         console.log(`Deleted document file: ${docId}.json`);
       } catch (error) {
-        // File might not exist, which is fine
+        // File might not exist (e.g., deleted manually), which is fine
         console.log(`Document file ${docId}.json not found, skipping deletion`);
       }
     }
@@ -228,6 +268,9 @@ const getAllChildIds = (docs: Document[], parentId: string): string[] => {
   return childIds;
 };
 
+/**
+ * Updates an existing document's metadata (like title or parent).
+ */
 export const updateDoc = async (args: {
   id: string;
   updates: Partial<Document>;
@@ -237,12 +280,12 @@ export const updateDoc = async (args: {
   await ensureDir(rootDir);
 
   try {
-    // Read existing config.json
+    // Modify metadata in database
     const configPath = `${rootDir}/config.json`;
     const existingConfig = await readFile(configPath, 'utf-8');
     const configJson = JSON.parse(existingConfig);
 
-    // Find and update the document
+    // Find document by ID and merge the new updates
     const docIndex = configJson.findIndex((doc: Document) => doc.id === id);
     if (docIndex !== -1) {
       configJson[docIndex] = {
@@ -261,6 +304,9 @@ export const updateDoc = async (args: {
   }
 };
 
+/**
+ * Reads and returns the content of a specific document file (.json).
+ */
 export const getFileContent = async (args: { docId: string }) => {
   const rootDir = getRootDir();
   await ensureDir(rootDir);
@@ -271,6 +317,9 @@ export const getFileContent = async (args: { docId: string }) => {
   return fileJson;
 };
 
+/**
+ * Overwrites the content file of a document with new editor data.
+ */
 export const saveFileContent = async (args: {
   docId: string;
   content: unknown;
@@ -289,13 +338,19 @@ export const saveFileContent = async (args: {
   }
 };
 
+/**
+ * Searches through document titles and contents for a specific query.
+ * Titles are prioritized in results.
+ *
+ * @returns A filtered list of document metadata objects.
+ */
 export const searchDocuments = async (args: { query: string }) => {
   const { query } = args;
   const rootDir = getRootDir();
   await ensureDir(rootDir);
 
   try {
-    // Read config.json to get all documents
+    // Read config.json to get all document metadata
     const configPath = `${rootDir}/config.json`;
     const existingConfig = await readFile(configPath, 'utf-8');
     const configJson = JSON.parse(existingConfig);
@@ -303,28 +358,28 @@ export const searchDocuments = async (args: { query: string }) => {
     const results: (Document & { matchType: 'title' | 'content' })[] = [];
     const queryLower = query.toLowerCase();
 
-    // Search through all documents
+    // Loop through all documents to find matches
     for (const doc of configJson) {
-      // Search in title first (higher priority)
+      // Priority 1: Check document title
       if (doc.title.toLowerCase().includes(queryLower)) {
         results.push({ ...doc, matchType: 'title' });
-        continue;
+        continue; // Skip content search if title already matched
       }
 
-      // Search in content if contentId exists
+      // Priority 2: Full-text search in content (.json file)
       if (doc.contentId) {
         try {
           const contentPath = `${rootDir}/${doc.id}.json`;
           const content = await readFile(contentPath, 'utf-8');
           const contentJson = JSON.parse(content);
 
-          // Search in content (assuming content is an array of blocks)
+          // Convert content blocks to string for keyword searching
           const contentString = JSON.stringify(contentJson).toLowerCase();
           if (contentString.includes(queryLower)) {
             results.push({ ...doc, matchType: 'content' });
           }
         } catch (error) {
-          // Content file might not exist, skip
+          // Content file might not exist or be unreadable
           console.log(
             `Content file for ${doc.id} not found, skipping content search`,
           );
@@ -332,14 +387,14 @@ export const searchDocuments = async (args: { query: string }) => {
       }
     }
 
-    // Sort results: title matches first, then by title alphabetically
+    // Sort results: title matches appear before content matches
     results.sort((a, b) => {
       if (a.matchType === 'title' && b.matchType === 'content') return -1;
       if (a.matchType === 'content' && b.matchType === 'title') return 1;
       return a.title.localeCompare(b.title);
     });
 
-    // Remove matchType from final results
+    // Cleanup: remove temporary matchType field from final output
     return results.map((result) => {
       const doc = { ...result };
       delete (doc as Document & { matchType?: string }).matchType;

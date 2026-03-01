@@ -7,6 +7,10 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+/**
+ * End-to-End tests for the initial Home/Landing state of the app.
+ * Verifies that the branding and primary UI elements are visible on launch.
+ */
 let electronApp: ElectronApplication;
 let window: Page;
 

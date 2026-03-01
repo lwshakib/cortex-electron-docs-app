@@ -3,6 +3,10 @@
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 
+/**
+ * Background component that listens for auto-updater events from the Main process.
+ * Shows toast notifications for progress and download completion.
+ */
 export default function Updater() {
   useEffect(() => {
     const { ipcRenderer } = window;

@@ -2,6 +2,10 @@ import { Button } from '@/components/ui/button';
 import { Minus, Square, X } from 'lucide-react';
 
 export default function ActionBar() {
+  /**
+   * Dispatches window control events to the Electron main process via IPC.
+   * @param channel - The action to perform ('minimize', 'maximize', or 'close')
+   */
   function handleActions(channel: string) {
     switch (channel) {
       case 'minimize':

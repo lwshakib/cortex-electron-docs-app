@@ -19,6 +19,11 @@ const mockContext = {
   selectedDocFileContent: null,
 };
 
+/**
+ * Unit tests for the DocumentsList component.
+ * Verifies that the recursive document tree renders correctly and
+ * handles nesting/expansion expectations.
+ */
 describe('DocumentsList Component', () => {
   const mockDocuments = [
     {

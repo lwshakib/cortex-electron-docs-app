@@ -7,10 +7,16 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+/**
+ * End-to-End tests for the core document flow.
+ * Covers document creation, title editing, and deletion using Playwright + Electron.
+ */
 let electronApp: ElectronApplication;
 let window: Page;
 
 test.beforeAll(async () => {
+  // Launch the Electron application using the previously built main process.
+  // We pass flags like --no-sandbox to ensure compatibility with CI environments.
   electronApp = await electron.launch({
     args: [
       path.join(__dirname, '../../dist-electron/main.js'),
@@ -23,6 +29,7 @@ test.beforeAll(async () => {
     },
   });
 
+  // Capture the first window that opens and wait for the DOM to be ready.
   window = await electronApp.firstWindow();
   await window.waitForLoadState('domcontentloaded');
 });

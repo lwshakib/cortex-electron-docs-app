@@ -13,6 +13,10 @@ interface Note {
   title?: string;
 }
 
+/**
+ * The main text editor component.
+ * Uses BlockNote for rich text editing and handles auto-saving of content and title.
+ */
 function ContentEditor({ note }: { note?: Note }) {
   const [title, setTitle] = useState(note?.title || '');
   const { selectedDoc, selectedDocFileContent, updateDocument } =

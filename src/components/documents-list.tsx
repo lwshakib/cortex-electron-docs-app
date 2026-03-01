@@ -4,6 +4,10 @@ import { FileText } from 'lucide-react';
 import { useContext, useEffect, useState } from 'react';
 import DocItem from './doc-item';
 
+/**
+ * Displays a recursive list of documents and their children.
+ * Handles document expansion (folders) and selection.
+ */
 export default function DocumentsList({
   documents,
   level = 0,

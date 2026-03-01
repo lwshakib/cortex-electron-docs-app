@@ -1,3 +1,7 @@
+/**
+ * This file is executed by Vitest before running any unit tests.
+ * It sets up the 'jest-dom' matchers and ensures clean test environments.
+ */
 import '@testing-library/jest-dom';
 import { expect, afterEach } from 'vitest';
 import { cleanup } from '@testing-library/react';

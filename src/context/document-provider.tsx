@@ -5,6 +5,10 @@ interface DocumentProviderProps {
   children: React.ReactNode;
 }
 
+/**
+ * Context Provider for managing application-wide document state.
+ * Interfaces with Electron's Main process via IPC for persistence.
+ */
 export default function DocumentProvider({ children }: DocumentProviderProps) {
   const [documents, setDocuments] = React.useState<Document[] | null>(null);
   const [selectedDoc, setSelectedDoc] = useState<Document | null>(null);
