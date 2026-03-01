@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import DocumentsList from '../../src/components/documents-list';
-import { DocumentContext } from '../../src/context/document-provider';
+import { DocumentContext } from '../../src/context/document-context';
 
 const mockContext = {
   documents: [],
@@ -24,18 +24,16 @@ describe('DocumentsList Component', () => {
     {
       id: '1',
       title: 'Doc 1',
-      children: [
-        { id: '1-1', title: 'Sub Doc 1-1', children: [] }
-      ]
+      children: [{ id: '1-1', title: 'Sub Doc 1-1', children: [] }],
     },
-    { id: '2', title: 'Doc 2', children: [] }
+    { id: '2', title: 'Doc 2', children: [] },
   ];
 
   it('renders a list of documents', () => {
     render(
       <DocumentContext.Provider value={mockContext}>
         <DocumentsList documents={mockDocuments} />
-      </DocumentContext.Provider>
+      </DocumentContext.Provider>,
     );
 
     expect(screen.getByText('Doc 1')).toBeInTheDocument();
@@ -46,7 +44,7 @@ describe('DocumentsList Component', () => {
     render(
       <DocumentContext.Provider value={mockContext}>
         <DocumentsList documents={mockDocuments} />
-      </DocumentContext.Provider>
+      </DocumentContext.Provider>,
     );
 
     expect(screen.queryByText('Sub Doc 1-1')).not.toBeInTheDocument();

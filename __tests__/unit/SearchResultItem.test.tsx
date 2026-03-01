@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import SearchResultItem from '../../src/components/search-result-item';
-import { DocumentContext } from '../../src/context/document-provider';
+import { DocumentContext } from '../../src/context/document-context';
 
 const mockContext = {
   documents: [],
@@ -28,8 +28,8 @@ describe('SearchResultItem Component', () => {
   it('renders and highlights the search query', () => {
     render(
       <DocumentContext.Provider value={mockContext}>
-        <SearchResultItem document={mockDoc} searchQuery="World" />
-      </DocumentContext.Provider>
+        <SearchResultItem document={mockDoc} searchQuery='World' />
+      </DocumentContext.Provider>,
     );
 
     expect(screen.getByText('Hello')).toBeInTheDocument();
@@ -41,8 +41,8 @@ describe('SearchResultItem Component', () => {
   it('calls setSelectedDoc on click', () => {
     render(
       <DocumentContext.Provider value={mockContext}>
-        <SearchResultItem document={mockDoc} searchQuery="Hello" />
-      </DocumentContext.Provider>
+        <SearchResultItem document={mockDoc} searchQuery='Hello' />
+      </DocumentContext.Provider>,
     );
 
     fireEvent.click(screen.getByText('Hello'));

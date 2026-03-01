@@ -1,16 +1,8 @@
-import { DocumentContext } from '@/context/document-provider';
+import { DocumentContext, Document } from '@/context/document-context';
 import { cn } from '@/lib/utils';
 import { FileText } from 'lucide-react';
 import { useContext, useEffect, useState } from 'react';
 import DocItem from './doc-item';
-
-interface Document {
-  id: string;
-  title: string;
-  documentParentId?: string;
-  contentId?: string;
-  children?: Document[];
-}
 
 export default function DocumentsList({
   documents,

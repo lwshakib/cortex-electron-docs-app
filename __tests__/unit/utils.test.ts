@@ -7,7 +7,9 @@ describe('utils/cn', () => {
   });
 
   it('should handle conditional class names', () => {
-    expect(cn('p-4', true && 'bg-red-500', false && 'text-white')).toBe('p-4 bg-red-500');
+    expect(cn('p-4', true && 'bg-red-500', false && 'text-white')).toBe(
+      'p-4 bg-red-500',
+    );
   });
 
   it('should handle tailwind conflict resolution', () => {

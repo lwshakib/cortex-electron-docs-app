@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import DocItem from '../../src/components/doc-item';
-import { DocumentContext } from '../../src/context/document-provider';
+import { DocumentContext } from '../../src/context/document-context';
 
 // Mock the context values
 const mockContext = {
@@ -24,30 +24,26 @@ const renderWithContext = (ui: React.ReactElement) => {
   return render(
     <DocumentContext.Provider value={mockContext}>
       {ui}
-    </DocumentContext.Provider>
+    </DocumentContext.Provider>,
   );
 };
 
 describe('DocItem Component', () => {
   it('renders the label correctly', () => {
-    renderWithContext(
-      <DocItem label="Test Document" onClick={() => {}} />
-    );
+    renderWithContext(<DocItem label='Test Document' onClick={() => {}} />);
     expect(screen.getByText('Test Document')).toBeInTheDocument();
   });
 
   it('calls onClick when clicked', () => {
     const handleClick = vi.fn();
-    renderWithContext(
-      <DocItem label="Test Document" onClick={handleClick} />
-    );
+    renderWithContext(<DocItem label='Test Document' onClick={handleClick} />);
     fireEvent.click(screen.getByRole('button'));
     expect(handleClick).toHaveBeenCalled();
   });
 
   it('shows expansion icon when id is provided', () => {
     const { container } = renderWithContext(
-      <DocItem id="123" label="Parent Doc" onClick={() => {}} />
+      <DocItem id='123' label='Parent Doc' onClick={() => {}} />,
     );
     // ChevronDown or ChevronUp should be present
     const chevron = container.querySelector('svg');
@@ -57,14 +53,19 @@ describe('DocItem Component', () => {
   it('calls onExpand when chevron is clicked', () => {
     const handleExpand = vi.fn();
     renderWithContext(
-      <DocItem id="123" label="Parent Doc" onClick={() => {}} onExpand={handleExpand} />
+      <DocItem
+        id='123'
+        label='Parent Doc'
+        onClick={() => {}}
+        onExpand={handleExpand}
+      />,
     );
-    
+
     // The main div has role='button', and the chevron div also has role='button'
     const buttons = screen.getAllByRole('button');
     // Main div is index 0, nested chevron is index 1
     const chevronButton = buttons[1];
-    
+
     if (chevronButton) {
       fireEvent.click(chevronButton);
       expect(handleExpand).toHaveBeenCalled();

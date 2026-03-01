@@ -48,12 +48,16 @@ test('welcome screen is shown when no document is selected', async () => {
 });
 
 test('create new document button is visible', async () => {
-  const createButton = window.getByRole('button', { name: 'Create new document' });
+  const createButton = window.getByRole('button', {
+    name: 'Create new document',
+  });
   await expect(createButton).toBeVisible();
 });
 
 test('search input is visible and functional', async () => {
-  const searchInput = window.locator('input[placeholder="Search documents..."]');
+  const searchInput = window.locator(
+    'input[placeholder="Search documents..."]',
+  );
   await expect(searchInput).toBeVisible();
 
   // Type into search

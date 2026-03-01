@@ -31,7 +31,9 @@ test.afterAll(async () => {
 
 test('should create a new document', async () => {
   // Click the "Create new document" button
-  const createButton = window.getByRole('button', { name: 'Create new document' });
+  const createButton = window.getByRole('button', {
+    name: 'Create new document',
+  });
   await expect(createButton).toBeVisible({ timeout: 10000 });
   await createButton.click();
 
@@ -65,10 +67,14 @@ test('should delete a document', async () => {
   await trashIcon.click();
 
   // The confirmation dialog should appear
-  const deleteConfirmButton = window.locator('button:has-text("Delete")').last();
+  const deleteConfirmButton = window
+    .locator('button:has-text("Delete")')
+    .last();
   await expect(deleteConfirmButton).toBeVisible({ timeout: 5000 });
   await deleteConfirmButton.click();
 
   // Document should no longer be visible
-  await expect(window.locator('text=My Test Document')).not.toBeVisible({ timeout: 5000 });
+  await expect(window.locator('text=My Test Document')).not.toBeVisible({
+    timeout: 5000,
+  });
 });

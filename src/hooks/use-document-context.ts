@@ -1,5 +1,5 @@
 import React from 'react';
-import { DocumentContext } from '../context/document-provider';
+import { DocumentContext } from '../context/document-context';
 
 export const useDocumentContext = () => {
   const context = React.useContext(DocumentContext);

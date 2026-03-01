@@ -1,41 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
-
-interface Document {
-  id: string;
-  title: string;
-  documentParentId?: string;
-  contentId?: string;
-  children?: Document[];
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
-interface DocumentContextProps {
-  documents: Document[] | null;
-  setDocuments: (documents: Document[] | null) => void;
-  selectedDoc: Document | null;
-  setSelectedDoc: (document: Document | null) => void;
-  selectedDocFileContent: unknown | null;
-  createDocument: (
-    documentParentId?: string,
-    title?: string,
-  ) => Promise<Document | null>;
-  updateDocument: (id: string, updates: Partial<Document>) => Promise<boolean>;
-  deleteDocument: (id: string) => Promise<boolean>;
-  searchDocuments: (query: string) => Promise<Document[]>;
-  findDocumentById: (id: string) => Document | null;
-  isLoading: boolean;
-  error: string | null;
-  clearError: () => void;
-}
+import { Document, DocumentContext } from './document-context';
 
 interface DocumentProviderProps {
   children: React.ReactNode;
 }
-
-export const DocumentContext = React.createContext<DocumentContextProps | null>(
-  null,
-);
 
 export default function DocumentProvider({ children }: DocumentProviderProps) {
   const [documents, setDocuments] = React.useState<Document[] | null>(null);
@@ -283,7 +251,7 @@ export default function DocumentProvider({ children }: DocumentProviderProps) {
     fetchDocs();
   }, []);
 
-  async function fetchFileContent() {
+  const fetchFileContent = useCallback(async () => {
     if (!selectedDoc?.id) {
       setSelectedDocFileContent(null);
       return;
@@ -305,11 +273,11 @@ export default function DocumentProvider({ children }: DocumentProviderProps) {
     } finally {
       setIsLoading(false);
     }
-  }
+  }, [selectedDoc?.id]);
 
   useEffect(() => {
     fetchFileContent();
-  }, [selectedDoc]);
+  }, [selectedDoc, fetchFileContent]);
 
   return (
     <DocumentContext.Provider
