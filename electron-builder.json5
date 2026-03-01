@@ -13,7 +13,6 @@
       owner: 'lwshakib',
       repo: 'cortex-electron-docs-app',
       releaseType: 'draft',
-      publish: 'always',
     },
   ],
   compression: 'maximum',
