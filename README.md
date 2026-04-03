@@ -102,6 +102,35 @@ cortex-electron-docs-app/
 └── release/                # Final production distributables
 ```
 
+## 🏗 Architecture
+
+```mermaid
+graph LR
+    subgraph Renderer Process [React Frontend]
+        UI([UI Components & Panels])
+        Editor([BlockNote Editor])
+        Hooks([Data Hooks & Context])
+        
+        UI --> Hooks
+        Editor --> Hooks
+    end
+
+    subgraph Preload [Context Isolation]
+        Bridge([preload.ts / Secure Bridge])
+    end
+
+    subgraph Main Process [Electron Node.js]
+        Handlers([main.ts / IPC Handlers])
+        Lib([lib/ / File Operations])
+        
+        Handlers --> Lib
+    end
+
+    Hooks -. "invoke channel" .-> Bridge
+    Bridge -. "trigger handle" .-> Handlers
+    Lib <--> Disk[(Local File System)]
+```
+
 ## 🛠 Tech Stack
 
 - **Framework**: [React 18](https://reactjs.org/)
