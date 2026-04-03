@@ -59,13 +59,31 @@ We value stability. Please ensure your changes are covered by tests:
 
 ### Pull Request Process
 
-1. **Fork** the repo and branch from `main`.
-2. **Setup** the environment and ensure it builds.
-3. **Implement** your changes, following the style guide.
-4. **Add Tests** for new functionality or bug fixes.
-5. **Run Linting**: `bun run lint` must pass.
-6. **Update Docs**: If you change an API or add a user-facing feature, update the README or relevant docs.
-7. **Submit PR**: Provide a clear description of your changes and link any related issues.
+1. **Fork the Repository**: Click the 'Fork' button at the top right of this page to create your own copy of the project.
+2. **Clone your Fork**:
+   ```bash
+   git clone https://github.com/YOUR_USERNAME/cortex-electron-docs-app.git
+   cd cortex-electron-docs-app
+   ```
+3. **Install Dependencies**:
+   ```bash
+   bun install
+   ```
+4. **Create a Branch**: Create a new branch for your feature or bugfix.
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+5. **Implement** your changes, following the style guide.
+6. **Add Tests** for new functionality or bug fixes.
+7. **Run Linting**: `bun run lint` must pass.
+8. **Update Docs**: If you change an API or add a user-facing feature, update the README or relevant docs.
+9. **Commit and Push**:
+   ```bash
+   git add .
+   git commit -m "feat: description of your changes"
+   git push origin feature/your-feature-name
+   ```
+10. **Submit a PR**: Go to your fork on GitHub and click "Compare & pull request" to submit your changes. Provide a clear description and link any related issues.
 
 ## Development Setup
 

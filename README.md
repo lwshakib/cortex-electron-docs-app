@@ -2,7 +2,7 @@
 
 A modern, feature-rich desktop docs and note-taking application built with Electron, React, and TypeScript. Cortex provides a seamless experience for creating, managing, and organizing your documents with a beautiful, intuitive interface.
 
-![Cortex Banner](public/demo.png)
+![Cortex App Demo](public/demo.png)
 
 _Watch Cortex in action - creating documents, searching, and exporting with ease_
 
