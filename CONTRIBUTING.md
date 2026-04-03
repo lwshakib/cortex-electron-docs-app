@@ -56,18 +56,23 @@ Cortex aims for a premium, high-end feel.
    git clone https://github.com/YOUR_USERNAME/cortex-electron-docs-app.git
    cd cortex-electron-docs-app
    ```
-3. **Install Dependencies**:
+3. **Configure Upstream Remote**:
+   It is recommended to connect your local clone to the original repository to keep it up-to-date.
+   ```bash
+   git remote add upstream https://github.com/lwshakib/cortex-electron-docs-app.git
+   ```
+4. **Install Dependencies**:
    ```bash
    bun install
    ```
-4. **Create a Branch**: Create a new branch for your feature or bugfix.
+5. **Create a Branch**: Create a new branch for your feature or bugfix.
    ```bash
    git checkout -b feature/your-feature-name
    ```
-5. **Implement** your changes, following the style guide.
-6. **Run Linting**: `bun run lint` must pass.
-7. **Update Docs**: If you change an API or add a user-facing feature, update the README or relevant docs.
-8. **Commit and Push**:
+6. **Implement**: Make your code changes following the style guide. Note that tests have been removed from this project, so you do not need to write testing suites.
+7. **Run Linting**: `bun run lint` must pass.
+8. **Update Docs**: If you change an API or add a user-facing feature, update the README or relevant docs.
+9. **Commit and Push**:
    ```bash
    git add .
    git commit -m "feat: description of your changes"
