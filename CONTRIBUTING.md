@@ -11,7 +11,6 @@ This guide provides information on how you can help, whether it's through report
   - [Reporting Bugs](#reporting-bugs)
   - [Suggesting Enhancements](#suggesting-enhancements)
   - [UI & UX Development](#ui--ux-development)
-  - [Testing Guidelines](#testing-guidelines)
   - [Pull Request Process](#pull-request-process)
 - [Development Setup](#development-setup)
 - [Style Guides](#style-guides)
@@ -49,14 +48,6 @@ Cortex aims for a premium, high-end feel.
 - **Animations**: Use `framer-motion` or CSS transitions for smooth micro-interactions.
 - **Responsiveness**: Ensure UI elements adapt to window resizing.
 
-### Testing Guidelines
-
-We value stability. Please ensure your changes are covered by tests:
-
-- **Unit Tests**: Use [Vitest](https://vitest.dev/) for testing utility functions and logic. `bun run test:unit`
-- **Component Tests**: Use `@testing-library/react` for verifying UI behavior.
-- **E2E Tests**: Use [Playwright](https://playwright.dev/) for critical user flows (e.g., creating and exporting a doc). `bun run test:e2e`
-
 ### Pull Request Process
 
 1. **Fork the Repository**: Click the 'Fork' button at the top right of this page to create your own copy of the project.
@@ -74,10 +65,9 @@ We value stability. Please ensure your changes are covered by tests:
    git checkout -b feature/your-feature-name
    ```
 5. **Implement** your changes, following the style guide.
-6. **Add Tests** for new functionality or bug fixes.
-7. **Run Linting**: `bun run lint` must pass.
-8. **Update Docs**: If you change an API or add a user-facing feature, update the README or relevant docs.
-9. **Commit and Push**:
+6. **Run Linting**: `bun run lint` must pass.
+7. **Update Docs**: If you change an API or add a user-facing feature, update the README or relevant docs.
+8. **Commit and Push**:
    ```bash
    git add .
    git commit -m "feat: description of your changes"
@@ -105,8 +95,6 @@ bun install
 - `bun run dev`: Start the development server with HMR and Electron.
 - `bun run build`: Compile the frontend and package the Electron app.
 - `bun run lint`: Run ESLint checks.
-- `bun run test:unit`: Execute Vitest unit tests.
-- `bun run test:e2e`: Execute Playwright end-to-end tests.
 - `bun run format`: Prettify the entire codebase.
 
 ## Style Guides
@@ -115,7 +103,7 @@ bun install
 
 - Use the **imperative mood** ("Add feature" not "Added feature").
 - Reference **issue numbers** (e.g., `feat: implement search highlighting (#12)`).
-- Use conventional commits (feat, fix, docs, style, refactor, test, chore).
+- Use conventional commits (feat, fix, docs, style, refactor, chore).
 
 ### TypeScript Style Guide
 
