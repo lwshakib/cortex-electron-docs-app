@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura — Precision Desktop Utility</title>
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --fg: #ededed;
+            --accent: #ffffff;
+            --muted: #888888;
+            --border: #262626;
+            --card-bg: #111111;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'Geist Mono', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--fg);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Subtle Grain Overlay */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Navbar */
+        nav {
+            padding: 2rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-mono);
+            font-weight: 700;
+            letter-spacing: -1px;
+            font-size: 1.25rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 8rem 0 6rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            top: -10%; left: 50%;
+            transform: translateX(-50%);
+            width: 600px; height: 300px;
+            background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, rgba(10,10,10,0) 70%);
+            z-index: -1;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-weight: 600;
+            letter-spacing: -0.04em;
+            margin-bottom: 1rem;
+        }
+
+        .tagline {
+            color: var(--muted);
+            font-size: 1.25rem;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: var(--accent);
+            color: var(--bg);
+            padding: 0.8rem 2rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--fg);
+            border: 1px solid var(--border);
+        }
+
+        /* Mockup */
+        .mockup-container {
+            margin-top: 5rem;
+            padding: 2px;
+            background: linear-gradient(180deg, var(--border), transparent);
+            border-radius: 12px;
+        }
+
+        .mockup {
+            background: var(--card-bg);
+            border-radius: 10px;
+            aspect-ratio: 16/9;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--muted);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mockup-dots {
+            position: absolute;
+            top: 1rem; left: 1rem;
+            display: flex; gap: 0.5rem;
+        }
+
+        .dot { width: 8px; height: 8px; background: var(--border); border-radius: 50%; }
+
+        /* Features */
+        .features {
+            padding: 6rem 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            padding: 2rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            transition: border-color 0.3s;
+        }
+
+        .feature-card:hover {
+            border-color: #444;
+        }
+
+        .feature-card i {
+            margin-bottom: 1.5rem;
+            display: block;
+            color: var(--muted);
+        }
+
+        .feature-card h3 {
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+        }
+
+        .feature-card p {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        /* Downloads */
+        .downloads {
+            padding: 6rem 0;
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+
+        .version-info {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+        }
+
+        .download-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            padding: 4rem 0;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--muted);
+            font-size: 0.85rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links a {
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        .footer-links a:hover { color: var(--fg); }
+
+        @media (max-width: 768px) {
+            .hero { padding: 4rem 0; }
+            footer { flex-direction: column; gap: 2rem; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <nav>
+            <div class="logo">AURA</div>
+            <a href="#download" class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.8rem;">Get App</a>
+        </nav>
+
+        <section class="hero">
+            <h1>Refine your workflow.</h1>
+            <p class="tagline">The minimalist command center for developers who prioritize focus and speed.</p>
+            
+            <a href="#" id="primary-cta" class="btn">
+                <i data-lucide="download"></i>
+                <span id="cta-text">Download for Mac</span>
+            </a>
+        </section>
+
+        <div class="mockup-container">
+            <div class="mockup">
+                <div class="mockup-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+                <i data-lucide="command" size="48" stroke-width="1"></i>
+            </div>
+        </div>
+
+        <section class="features">
+            <div class="feature-card">
+                <i data-lucide="zap"></i>
+                <h3>Instant Response</h3>
+                <p>Engineered in Rust for sub-10ms latency. No loading states, ever.</p>
+            </div>
+            <div class="feature-card">
+                <i data-lucide="shield-check"></i>
+                <h3>Privacy First</h3>
+                <p>Local-only processing. Your data never leaves your machine.</p>
+            </div>
+            <div class="feature-card">
+                <i data-lucide="layers"></i>
+                <h3>Deep Integration</h3>
+                <p>Native workflows for Terminal, VS Code, and browser environments.</p>
+            </div>
+            <div class="feature-card">
+                <i data-lucide="cpu"></i>
+                <h3>Resource Light</h3>
+                <p>Low memory footprint. Stays out of your way until you need it.</p>
+            </div>
+        </section>
+
+        <section id="download" class="downloads">
+            <div class="version-info">Current Version: v2.4.0 — Released May 2026</div>
+            <div class="download-grid">
+                <a href="#" class="btn btn-secondary">
+                    <i data-lucide="apple"></i> macOS (.dmg)
+                </a>
+                <a href="#" class="btn btn-secondary">
+                    <i data-lucide="monitor"></i> Windows (.exe)
+                </a>
+                <a href="#" class="btn btn-secondary">
+                    <i data-lucide="terminal"></i> Linux (.AppImage)
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <div>© 2026 Aura Labs</div>
+            <div class="footer-links">
+                <a href="#">Docs</a>
+                <a href="#">GitHub</a>
+                <a href="#">Changelog</a>
+                <a href="#">License</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // OS Detection Logic
+        function detectOS() {
+            const platform = window.navigator.platform.toLowerCase();
+            const ctaText = document.getElementById('cta-text');
+            const ctaBtn = document.getElementById('primary-cta');
+
+            if (platform.includes('mac')) {
+                ctaText.innerText = 'Download for macOS';
+            } else if (platform.includes('win')) {
+                ctaText.innerText = 'Download for Windows';
+            } else if (platform.includes('linux')) {
+                ctaText.innerText = 'Download for Linux';
+            } else {
+                ctaText.innerText = 'Download Now';
+            }
+        }
+
+        window.onload = detectOS;
+    </script>
+</body>
+</html>
