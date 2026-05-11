@@ -1,34 +1,32 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/electron-vite.animate.svg'
-
+import { Button } from "@workspace/ui/components/button"
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
-    <>
-      <div>
-        <a href="https://electron-vite.github.io" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
+    <div className="flex min-h-screen flex-col items-center justify-center gap-6 bg-background p-8 text-foreground">
+      <div className="space-y-2 text-center">
+        <h1 className="text-4xl font-bold tracking-tight">Cortex Desktop</h1>
+        <p className="text-muted-foreground">
+          Powered by Vite, Electron, and Shadcn UI
         </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+
+      <div className="flex flex-col items-center gap-4">
+        <Button 
+          size="lg" 
+          onClick={() => setCount((count) => count + 1)}
+          className="min-w-[200px]"
+        >
+          Count is {count}
+        </Button>
+        
+        <p className="text-sm text-muted-foreground">
+          Edit <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">src/App.tsx</code> to start building
+        </p>
+      </div>
+    </div>
   )
 }
 
