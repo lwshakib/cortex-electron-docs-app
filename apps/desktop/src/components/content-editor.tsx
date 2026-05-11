@@ -8,6 +8,7 @@ import { BlockNoteView } from '@blocknote/shadcn';
 import '@blocknote/shadcn/style.css';
 import { useCallback, useEffect, useState } from 'react';
 import ActionBar from './action-bar';
+import { useTheme } from './theme-context';
 
 interface Note {
   title?: string;
@@ -21,6 +22,20 @@ function ContentEditor({ note }: { note?: Note }) {
   const [title, setTitle] = useState(note?.title || '');
   const { selectedDoc, selectedDocFileContent, updateDocument } =
     useDocumentContext();
+  const { theme } = useTheme();
+
+  const [resolvedTheme, setResolvedTheme] = useState<'light' | 'dark'>('dark');
+
+  useEffect(() => {
+    if (theme === 'system') {
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      const updateTheme = () => setResolvedTheme(mediaQuery.matches ? 'dark' : 'light');
+      updateTheme();
+      mediaQuery.addEventListener('change', updateTheme);
+      return () => mediaQuery.removeEventListener('change', updateTheme);
+    }
+    setResolvedTheme(theme as 'light' | 'dark');
+  }, [theme]);
 
   const editor = useCreateBlockNote({
     initialContent:
@@ -151,21 +166,21 @@ function ContentEditor({ note }: { note?: Note }) {
             </div>
             <BlockNoteView
               editor={editor}
-              theme='dark'
+              theme={resolvedTheme}
               className='bg-transparent bn-small-text'
               onSelectionChange={handleSelectionChange}
             />
           </>
         ) : (
-          <div className='flex flex-col items-center justify-center h-full text-center px-8 py-4'>
+          <div className='flex flex-col items-center justify-center h-full text-center px-8 py-4 bg-background'>
             <div className='max-w-2xl'>
-              <h1 className='text-4xl font-bold text-white mb-4'>Cortex</h1>
-              <p className='text-xl text-gray-300 mb-8'>
+              <h1 className='text-4xl font-bold text-foreground mb-4'>Cortex</h1>
+              <p className='text-xl text-muted-foreground mb-8'>
                 A document Create, Update, Delete platform
               </p>
 
-              <div className='text-left text-gray-400 space-y-4'>
-                <h2 className='text-2xl font-semibold text-white mb-4'>
+              <div className='text-left text-muted-foreground space-y-4'>
+                <h2 className='text-2xl font-semibold text-foreground mb-4'>
                   Welcome to Cortex
                 </h2>
 
@@ -177,7 +192,7 @@ function ContentEditor({ note }: { note?: Note }) {
                   organize your ideas.
                 </p>
 
-                <h3 className='text-xl font-semibold text-white mt-6 mb-3'>
+                <h3 className='text-xl font-semibold text-foreground mt-6 mb-3'>
                   Key Features
                 </h3>
                 <ul className='list-disc list-inside space-y-2 ml-4'>
@@ -190,7 +205,7 @@ function ContentEditor({ note }: { note?: Note }) {
                   <li>Clean, distraction-free writing environment</li>
                 </ul>
 
-                <h3 className='text-xl font-semibold text-white mt-6 mb-3'>
+                <h3 className='text-xl font-semibold text-foreground mt-6 mb-3'>
                   Getting Started
                 </h3>
                 <p>
