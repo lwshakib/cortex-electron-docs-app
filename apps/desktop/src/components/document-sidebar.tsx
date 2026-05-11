@@ -7,7 +7,7 @@ import DocItem from './doc-item';
 import DocumentsList from './documents-list';
 import SearchResultItem from './search-result-item';
 import { ScrollArea } from '@workspace/ui/components/scroll-area';
-import logo from '/logo.svg';
+import { Logo } from './logo';
 
 interface DocumentItem {
   id: string;
@@ -88,7 +88,7 @@ function DocumentSidebar() {
       <div className='p-4'>
         <div className='flex items-center justify-between drag-css'>
           <div className='flex items-center'>
-            <img src={logo} alt='Cortex Logo' className='h-8 w-8' />
+            <Logo className='h-8 w-8 text-foreground' />
             <h2 className='text-lg font-semibold text-foreground ml-2'>
               Cortex
             </h2>
