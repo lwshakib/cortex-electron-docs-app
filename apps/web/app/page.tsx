@@ -44,10 +44,10 @@ export default function Page(): React.ReactElement {
           <div className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[radial-gradient(circle,rgba(255,255,255,0.08)_0%,rgba(10,10,10,0)_70%)] -z-10" />
           
           <h1 className="text-5xl font-semibold tracking-[-0.04em] sm:text-7xl mb-4">
-            Refine your workflow.
+            Your ideas, organized.
           </h1>
           <p className="text-[#888888] text-xl max-w-[600px] mx-auto mb-12">
-            The minimalist command center for developers who prioritize focus and speed.
+            The intelligent document management platform designed for thinkers. Local-first, distraction-free, and blazing fast.
           </p>
           
           <Button size="lg" className="bg-white text-black hover:opacity-90 transition-transform hover:-translate-y-0.5 h-12 px-8 font-semibold rounded-md">
@@ -75,23 +75,23 @@ export default function Page(): React.ReactElement {
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 py-24">
           <FeatureCard 
             icon={Zap} 
-            title="Instant Response" 
-            description="Engineered for sub-10ms latency. No loading states, ever." 
+            title="BlockNote Editing" 
+            description="Experience a fluid, block-based editor. Create rich content with sub-10ms response times." 
           />
           <FeatureCard 
             icon={ShieldCheck} 
-            title="Privacy First" 
-            description="Local-only processing. Your data never leaves your machine." 
+            title="Local-First" 
+            description="Your data never leaves your machine. Local storage ensures maximum privacy and speed." 
           />
           <FeatureCard 
             icon={Layers} 
-            title="Deep Integration" 
-            description="Native workflows for Terminal, VS Code, and browser environments." 
+            title="Hierarchical Docs" 
+            description="Organize your knowledge base with unlimited nested documents and structured folders." 
           />
           <FeatureCard 
             icon={Cpu} 
-            title="Resource Light" 
-            description="Low memory footprint. Stays out of your way until you need it." 
+            title="Instant Search" 
+            description="Find any document in milliseconds with full-text search across your entire workspace." 
           />
         </section>
 
