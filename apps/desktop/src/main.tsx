@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 import DocumentProvider from './context/document-provider.tsx';
-import './index.css';
+import '@workspace/ui/globals.css';
 import { Toaster } from '@workspace/ui/components/sonner.tsx';
 import { ThemeProvider } from './components/theme-provider.tsx';
 

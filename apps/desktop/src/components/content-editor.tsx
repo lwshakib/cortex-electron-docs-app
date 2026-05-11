@@ -200,7 +200,7 @@ function ContentEditor({ note }: { note?: Note }) {
                   knowledge base.
                 </p>
 
-                <div className='mt-8 p-4 bg-gray-800 rounded-lg border border-gray-700'>
+                <div className='mt-8'>
                   <p className='text-sm text-gray-300'>
                     <strong>Tip:</strong> Use the sidebar to navigate between
                     documents. Click the plus icon to create new documents or
