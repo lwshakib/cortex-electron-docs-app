@@ -1,33 +1,49 @@
-import { useState } from 'react'
-import { Button } from "@workspace/ui/components/button"
+import DocumentContent from './components/document-content';
+import DocumentSidebar from './components/document-sidebar';
+import Updater from './components/updater';
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from '@workspace/ui/components/resizable';
 
+/**
+ * The root App component.
+ * Implements a resizable dashboard layout with a sidebar and a content area.
+ */
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center gap-6 bg-background p-8 text-foreground">
-      <div className="space-y-2 text-center">
-        <h1 className="text-4xl font-bold tracking-tight">Cortex Desktop</h1>
-        <p className="text-muted-foreground">
-          Powered by Vite, Electron, and Shadcn UI
-        </p>
-      </div>
+    <div className='min-h-screen bg-background/90 backdrop-blur-md relative'>
+      {/* Handles background update checks and UI notifications */}
+      <Updater />
 
-      <div className="flex flex-col items-center gap-4">
-        <Button 
-          size="lg" 
-          onClick={() => setCount((count) => count + 1)}
-          className="min-w-[200px]"
+      {/* Main split-screen layout */}
+      <ResizablePanelGroup direction='horizontal' className='h-screen'>
+        {/* Left Sidebar: Document navigation and search */}
+        <ResizablePanel
+          defaultSize={25}
+          minSize={20}
+          maxSize={60}
+          className='h-full'
         >
-          Count is {count}
-        </Button>
-        
-        <p className="text-sm text-muted-foreground">
-          Edit <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs">src/App.tsx</code> to start building
-        </p>
-      </div>
+          <DocumentSidebar />
+        </ResizablePanel>
+
+        {/* Draggable handle for resizing panels */}
+        <ResizableHandle withHandle />
+
+        {/* Right Content Area: Text editor and title bar */}
+        <ResizablePanel
+          defaultSize={75}
+          minSize={40}
+          maxSize={80}
+          className='h-full'
+        >
+          <DocumentContent />
+        </ResizablePanel>
+      </ResizablePanelGroup>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
