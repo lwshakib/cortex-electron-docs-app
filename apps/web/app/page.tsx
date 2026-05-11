@@ -4,7 +4,7 @@ import { Button } from "@workspace/ui/components/button"
 import { Logo } from "@/components/logo"
 import { LucideIcon, Download, Zap, ShieldCheck, Layers, Cpu, Apple, Monitor, Terminal, Command } from "lucide-react"
 
-export default function Page(): JSX.Element {
+export default function Page(): React.ReactElement {
   const [ctaText, setCtaText] = useState("Download Now")
 
   useEffect(() => {
@@ -120,7 +120,7 @@ export default function Page(): JSX.Element {
   )
 }
 
-function FeatureCard({ icon: Icon, title, description }: { icon: any, title: string, description: string }): JSX.Element {
+function FeatureCard({ icon: Icon, title, description }: { icon: any, title: string, description: string }): React.ReactElement {
   return (
     <div className="p-8 border border-[#262626] rounded-lg hover:border-[#444] transition-colors group">
       <Icon className="h-6 w-6 text-[#888888] mb-6 group-hover:text-white transition-colors" />
@@ -130,7 +130,7 @@ function FeatureCard({ icon: Icon, title, description }: { icon: any, title: str
   )
 }
 
-function DownloadButton({ icon: Icon, label }: { icon: any, label: string }): JSX.Element {
+function DownloadButton({ icon: Icon, label }: { icon: any, label: string }): React.ReactElement {
   return (
     <Button variant="outline" className="bg-transparent border-[#262626] hover:bg-[#111111] text-[#ededed] h-12 px-6 rounded-md">
       <Icon className="mr-2 h-5 w-5" />
