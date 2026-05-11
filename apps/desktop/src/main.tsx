@@ -13,7 +13,7 @@ import { ThemeProvider } from './components/theme-provider.tsx';
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     {/* Provides dark/light theme state across the app */}
-    <ThemeProvider defaultTheme='dark' storageKey='electron-vite-theme'>
+    <ThemeProvider defaultTheme='system' storageKey='electron-vite-theme'>
       {/* Manages document metadata, selection, and file content state */}
       <DocumentProvider>
         <App />
