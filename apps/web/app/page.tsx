@@ -70,12 +70,12 @@ export default function Page(): React.ReactElement {
         <div className="mt-20 p-[2px] bg-gradient-to-b from-border to-transparent rounded-xl">
           <div className="aspect-[16/9] w-full bg-muted rounded-[10px] flex items-center justify-center relative overflow-hidden group">
             <img 
-              src="/light_demo.png" 
+              src="/demos/light_demo.png" 
               alt="Cortex App Demo Light" 
               className="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-700 dark:hidden block" 
             />
             <img 
-              src="/dark_demo.png" 
+              src="/demos/dark_demo.png" 
               alt="Cortex App Demo Dark" 
               className="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-700 hidden dark:block" 
             />
