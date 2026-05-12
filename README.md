@@ -1,183 +1,120 @@
-# <img src="public/logo.svg" width="48" height="48" align="left" style="margin-right: 12px;"> Cortex - Electron Docs App
+# <img src="apps/web/public/logos/logo.svg" height="40" align="center" /> Cortex
 
-A modern, feature-rich desktop docs and note-taking application built with Electron, React, and TypeScript. Cortex provides a seamless experience for creating, managing, and organizing your documents with a beautiful, intuitive interface.
+<div align="center">
+  <p><strong>The Intelligent Document Management Platform Designed for Thinkers</strong></p>
+</div>
 
-![Cortex App Demo](public/demo.png)
+Cortex is a local-first, distraction-free, and blazing-fast document management platform. It offers an elegant split-screen interface, block-based rich text editing (via BlockNote), full-text instant search, and hierarchical document organization. 
 
-_Watch Cortex in action - creating documents, searching, and exporting with ease_
+This repository contains the full monorepo for both the **Cortex Web Application** and the **Cortex Desktop Application**.
 
-## ✨ Features
+<div align="center">
+  <img src="apps/desktop/public/demos/light_demo.png" width="49%" />
+  <img src="apps/desktop/public/demos/dark_demo.png" width="49%" />
+</div>
 
-### 📝 Document Management
+---
 
-- **Create, Read, Update, Delete** documents with ease.
-- **Rich Text Editing** powered by [BlockNote](https://www.blocknotejs.org/), supporting bold, italic, headings, lists, and more.
-- **Hierarchical Structure** with nested document support for better organization.
-- **Auto-Save** functionality ensures you never lose a single keystroke.
-- **Local Persistence** using internal storage, keeping your data private and offline-first.
+## Architecture Overview
 
-### 🎨 Modern UI/UX
+Cortex is built as a highly modular [Turborepo](https://turborepo.org/) monorepo. It relies on `pnpm` for fast, workspace-level dependency management.
 
-- **Resizable Panels** for a truly customizable workspace layout.
-- **Dark/Light Theme** support with seamless system preference synchronization.
-- **Glassmorphism & Micro-animations** for a premium, high-end feel.
-- **Responsive Fluid Design** that looks stunning at any window size.
-- **Custom Native Controls** for a unified desktop experience across all platforms.
+```mermaid
+graph TD
+    Root[Cortex Monorepo]
+    
+    subgraph Apps
+      Web[apps/web<br>Next.js 16 Web App]
+      Desktop[apps/desktop<br>Electron + Vite Desktop App]
+    end
+    
+    subgraph Packages
+      UI[packages/ui<br>Shared shadcn/ui Components]
+      TSConfig[packages/typescript-config<br>Base TS configs]
+      ESLint[packages/eslint-config<br>Base Lint rules]
+    end
 
-### 🔍 Advanced Search & Discovery
+    Web --> UI
+    Web --> TSConfig
+    Web --> ESLint
+    Desktop --> UI
+    Desktop --> TSConfig
+    Desktop --> ESLint
+```
 
-- **Instant Global Search** with intelligent debouncing for maximum performance.
-- **Keyboard Shortcut (Ctrl/Cmd + K)** for lightning-fast access to any document.
-- **Search Result Highlighting** helps you find exactly what you're looking for instantly.
-- **Full-Text Content Search** scans not just your titles, but the entire body of your notes.
+## Getting Started
 
-### 📤 Multi-Format Export
-
-- **PDF Export**: Generate high-fidelity PDFs suitable for printing and sharing.
-- **DOCX Export**: Compatible with Microsoft Word and other professional editors.
-- **HTML Export**: Perfect for publishing your notes as web pages.
-- **Batch Export**: Export entire collections of documents in one go.
-
-### 🛠 Developer Experience
-
-- **TypeScript First** for ultimate type safety and developer productivity.
-- **Vite-Powered Build System** for near-instant hot module replacement (HMR).
-- **Bun Package Manager** for lightning-fast dependency management and scripting.
-- **Cross-Platform Compatibility** (Windows, macOS, Linux).
-- **ESLint & Prettier** pre-configured for consistent code quality.
-
-## 🚀 Quick Start
+Follow these steps to set up the project on your local machine for development.
 
 ### Prerequisites
-
-- **Node.js** (v20 or higher)
-- **Bun** (Recommended) or **npm**
+Make sure you have the following installed on your system:
+- **Node.js**: v20 or newer
+- **pnpm**: v9 (We use `pnpm` exclusively for managing workspaces)
 - **Git**
 
 ### Installation
 
 1. **Clone the repository**
-
    ```bash
-   git clone https://github.com/lwshakib/cortex-electron-docs-app.git
-   cd cortex-electron-docs-app
+   git clone https://github.com/lwshakib/cortex.git
+   cd cortex
    ```
 
 2. **Install dependencies**
-
+   Install all dependencies across the entire monorepo.
    ```bash
-   bun install
+   pnpm install
    ```
 
-3. **Start development server**
+## Development Workflows
 
-   ```bash
-   bun run dev
-   ```
+Turborepo handles task orchestration. You can run commands at the root to execute them across all relevant workspaces.
 
-4. **Build for production**
-   ```bash
-   bun run build
-   ```
+### Start the Development Servers
 
-## 📁 Project Structure
-
+To spin up both the Next.js web application and the Vite-powered Electron desktop app simultaneously:
 ```bash
-cortex-electron-docs-app/
-├── electron/               # Electron Main Process
-│   ├── main.ts            # Entry point for the desktop shell
-│   ├── preload.ts         # Secure IPC bridge
-│   └── lib/               # Node-specific utilities
-├── src/                   # React Frontend (Renderer Process)
-│   ├── components/        # Reusable UI & Layout components
-│   │   ├── ui/           # Radix-powered primitive components
-│   │   ├── content-editor.tsx
-│   │   └── document-sidebar.tsx
-│   ├── context/          # Application-level state management
-│   ├── hooks/            # Custom logic and data fetching hooks
-│   ├── lib/              # Frontend utility functions
-│   └── App.tsx           # Main application shell
-├── public/                 # Static assets (logos, images)
-├── dist-electron/          # Compiled Electron bundle
-└── release/                # Final production distributables
+pnpm run dev
 ```
 
-## 🏗 Architecture
+Alternatively, you can start a specific application:
+```bash
+# Start only the web app
+pnpm turbo run dev --filter=web
 
-```mermaid
-graph LR
-    subgraph Renderer Process [React Frontend]
-        UI([UI Components & Panels])
-        Editor([BlockNote Editor])
-        Hooks([Data Hooks & Context])
-        
-        UI --> Hooks
-        Editor --> Hooks
-    end
-
-    subgraph Preload [Context Isolation]
-        Bridge([preload.ts / Secure Bridge])
-    end
-
-    subgraph Main Process [Electron Node.js]
-        Handlers([main.ts / IPC Handlers])
-        Lib([lib/ / File Operations])
-        
-        Handlers --> Lib
-    end
-
-    Hooks -. "invoke channel" .-> Bridge
-    Bridge -. "trigger handle" .-> Handlers
-    Lib <--> Disk[(Local File System)]
+# Start only the desktop app
+pnpm turbo run dev --filter=desktop
 ```
 
-## 🛠 Tech Stack
+### Building for Production
 
-- **Framework**: [React 18](https://reactjs.org/)
-- **Desktop Runtime**: [Electron 30](https://www.electronjs.org/)
-- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
-- **Editor**: [BlockNote](https://www.blocknotejs.org/)
-- **Components**: [Radix UI](https://www.radix-ui.com/) & [Lucide Icons](https://lucide.dev/)
-- **Build Tool**: [Vite](https://vitejs.dev/)
-- **Runtime Manager**: [Bun](https://bun.sh/)
+To build all apps and packages:
+```bash
+pnpm run build
+```
 
-## 📦 Building & Distribution
+### Linting and Type Checking
 
-We use **electron-builder** to package the application into platform-specific installers:
+Ensure code quality before submitting your changes:
+```bash
+# Run ESLint across all workspaces
+pnpm run lint
 
-- **Windows**: NSIS installer with customizable install paths and desktop shortcuts.
-- **macOS**: DMG package with drag-to-applications support.
-- **Linux**: AppImage and Debian packages for wide distribution.
+# Run TypeScript compilation checks
+pnpm run typecheck
+```
 
-Key configuration (see `electron-builder.json5`):
+### Releasing the Desktop App
 
-- **App ID**: `cortex-electron-docs`
-- **Product Name**: `Cortex`
-- **One-Click Install**: Disabled for better user control.
-- **Auto-Launch**: Encouraged for quick accessibility.
+To compile and package the desktop app for distribution (this will trigger `electron-builder`):
+```bash
+pnpm turbo run release --filter=desktop
+```
 
-## 🤝 Contributing & Community
+## Contributing
 
-We are building a community around Cortex and welcome contributions of all types!
+We welcome contributions from the community! Please see our [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed guidelines on how to get started.
 
-1. **Fork** the repository.
-2. **Create** a descriptive feature branch (`git checkout -b feat/ultra-fast-search`).
-3. **Commit** your changes with clear messages (`git commit -m 'Implement fuzzy search logic'`).
-4. **Push** to the branch (`git push origin feat/ultra-fast-search`).
-5. **Open** a Pull Request for review.
+## Code of Conduct
 
-Please ensure you've read our [CONTRIBUTING.md](CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) before getting started.
-
-## 📄 License
-
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for more details.
-
-## 🙏 Acknowledgments
-
-- The incredible [BlockNote](https://www.blocknotejs.org/) team for the modern editor core.
-- [Vite](https://vitejs.dev/) and [Vite-Plugin-Electron](https://github.com/electron-vite/vite-plugin-electron) for the best development experience.
-- The [Shadcn/ui](https://ui.shadcn.com/) community for inspiring our component design.
-
----
-
-**Cortex** – _Your all-in-one workspace for modern document management._
+Please adhere to our [Code of Conduct](./CODE_OF_CONDUCT.md) to ensure a welcoming and inclusive environment for everyone.
