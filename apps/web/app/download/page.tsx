@@ -2,7 +2,8 @@
 import Link from "next/link"
 import { Button } from "@workspace/ui/components/button"
 import { Logo } from "@/components/logo"
-import { Apple, Monitor, Terminal, ArrowLeft, Download } from "lucide-react"
+import { ArrowLeft, Download } from "lucide-react"
+import { Icon } from "@iconify/react"
 
 export default function DownloadPage(): React.ReactElement {
   return (
@@ -48,7 +49,7 @@ export default function DownloadPage(): React.ReactElement {
             <div className="p-[1px] bg-gradient-to-b from-border to-transparent rounded-xl flex">
               <div className="flex-1 bg-background rounded-[10px] p-8 flex flex-col items-center text-center hover:bg-muted transition-colors group">
                 <div className="h-16 w-16 rounded-full bg-muted flex items-center justify-center mb-6 group-hover:bg-accent transition-colors border border-border">
-                  <Apple className="h-8 w-8 text-foreground" />
+                  <Icon icon="mdi:apple" className="h-8 w-8 text-foreground" />
                 </div>
                 <h2 className="text-xl font-medium mb-2">macOS</h2>
                 <p className="text-muted-foreground text-sm mb-8 flex-1">
@@ -65,7 +66,7 @@ export default function DownloadPage(): React.ReactElement {
             <div className="p-[1px] bg-gradient-to-b from-border to-transparent rounded-xl flex">
               <div className="flex-1 bg-background rounded-[10px] p-8 flex flex-col items-center text-center hover:bg-muted transition-colors group">
                 <div className="h-16 w-16 rounded-full bg-muted flex items-center justify-center mb-6 group-hover:bg-accent transition-colors border border-border">
-                  <Monitor className="h-8 w-8 text-foreground" />
+                  <Icon icon="mdi:microsoft-windows" className="h-8 w-8 text-foreground" />
                 </div>
                 <h2 className="text-xl font-medium mb-2">Windows</h2>
                 <p className="text-muted-foreground text-sm mb-8 flex-1">
@@ -82,7 +83,7 @@ export default function DownloadPage(): React.ReactElement {
             <div className="p-[1px] bg-gradient-to-b from-border to-transparent rounded-xl flex">
               <div className="flex-1 bg-background rounded-[10px] p-8 flex flex-col items-center text-center hover:bg-muted transition-colors group">
                 <div className="h-16 w-16 rounded-full bg-muted flex items-center justify-center mb-6 group-hover:bg-accent transition-colors border border-border">
-                  <Terminal className="h-8 w-8 text-foreground" />
+                  <Icon icon="mdi:linux" className="h-8 w-8 text-foreground" />
                 </div>
                 <h2 className="text-xl font-medium mb-2">Linux</h2>
                 <p className="text-muted-foreground text-sm mb-8 flex-1">

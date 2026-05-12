@@ -1,6 +1,7 @@
 "use client"
 import { useState, useEffect } from "react"
 import Link from "next/link"
+import { Icon } from "@iconify/react"
 import { Button } from "@workspace/ui/components/button"
 import { Logo } from "@/components/logo"
 import { LucideIcon, Download, Zap, ShieldCheck, Layers, Cpu, Apple, Monitor, Terminal, Command, LayoutDashboard, RefreshCw } from "lucide-react"
@@ -35,11 +36,16 @@ export default function Page(): React.ReactElement {
             <Logo className="h-8 w-auto text-foreground" />
             <div className="font-mono text-xl font-bold tracking-tighter">CORTEX</div>
           </div>
-          <Link href="/download">
-            <Button variant="outline" size="sm" className="bg-transparent border-border hover:bg-muted text-foreground h-9 px-4 text-xs">
-              Get App
-            </Button>
-          </Link>
+          <div className="flex items-center gap-4">
+            <a href="https://github.com/lwshakib/cortex" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
+              <Icon icon="mdi:github" className="h-6 w-6" />
+            </a>
+            <Link href="/download">
+              <Button variant="outline" size="sm" className="bg-transparent border-border hover:bg-muted text-foreground h-9 px-4 text-xs">
+                Get App
+              </Button>
+            </Link>
+          </div>
         </nav>
 
         <section className="relative py-24 text-center sm:py-32">
