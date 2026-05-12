@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react"
 import { Button } from "@workspace/ui/components/button"
 import { Logo } from "@/components/logo"
-import { LucideIcon, Download, Zap, ShieldCheck, Layers, Cpu, Apple, Monitor, Terminal, Command } from "lucide-react"
+import { LucideIcon, Download, Zap, ShieldCheck, Layers, Cpu, Apple, Monitor, Terminal, Command, LayoutDashboard, RefreshCw } from "lucide-react"
 
 export default function Page(): React.ReactElement {
   const [ctaText, setCtaText] = useState("Download Now")
@@ -72,7 +72,7 @@ export default function Page(): React.ReactElement {
           </div>
         </div>
 
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 py-24">
+        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 py-24">
           <FeatureCard 
             icon={Zap} 
             title="BlockNote Editing" 
@@ -93,11 +93,21 @@ export default function Page(): React.ReactElement {
             title="Instant Search" 
             description="Find any document in milliseconds with full-text search across your entire workspace." 
           />
+          <FeatureCard 
+            icon={LayoutDashboard} 
+            title="Split-Screen UI" 
+            description="Seamlessly navigate documents and content side-by-side with our fully resizable, dual-pane architecture." 
+          />
+          <FeatureCard 
+            icon={RefreshCw} 
+            title="Auto-Updates" 
+            description="Stay on the cutting edge effortlessly. Background updates ensure you always have the latest improvements." 
+          />
         </section>
 
         <section id="download" className="py-24 text-center border-t border-[#262626]">
           <div className="font-mono text-[10px] text-[#888888] uppercase tracking-widest mb-8">
-            Current Version: v2.4.0 — Released May 2026
+            Current Version: v1.0.6 — Released May 2026
           </div>
           <div className="flex flex-wrap justify-center gap-4">
             <DownloadButton icon={Apple} label="macOS (.dmg)" />
