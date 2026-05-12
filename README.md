@@ -8,6 +8,11 @@ Cortex is a local-first, distraction-free, and blazing-fast document management 
 
 This repository contains the full monorepo for both the **Cortex Web Application** and the **Cortex Desktop Application**.
 
+<div align="center">
+  <img src="apps/desktop/public/demos/light_demo.png" width="49%" />
+  <img src="apps/desktop/public/demos/dark_demo.png" width="49%" />
+</div>
+
 ---
 
 ## Architecture Overview
