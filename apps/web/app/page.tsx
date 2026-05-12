@@ -20,7 +20,7 @@ export default function Page(): React.ReactElement {
   }, [])
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-[#ededed] font-sans selection:bg-white selection:text-black relative overflow-x-hidden">
+    <div className="min-h-screen bg-background text-foreground font-sans selection:bg-foreground selection:text-background relative overflow-x-hidden">
       {/* Subtle Grain Overlay */}
       <div 
         className="fixed inset-0 pointer-events-none z-[9999] opacity-[0.03]" 
@@ -32,11 +32,11 @@ export default function Page(): React.ReactElement {
       <div className="container mx-auto max-w-[1100px] px-6 relative z-10">
         <nav className="flex items-center justify-between py-8">
           <div className="flex items-center gap-2">
-            <Logo className="h-8 w-auto text-white" />
+            <Logo className="h-8 w-auto text-foreground" />
             <div className="font-mono text-xl font-bold tracking-tighter">CORTEX</div>
           </div>
           <Link href="/download">
-            <Button variant="outline" size="sm" className="bg-transparent border-[#262626] hover:bg-[#111111] text-[#ededed] h-9 px-4 text-xs">
+            <Button variant="outline" size="sm" className="bg-transparent border-border hover:bg-muted text-foreground h-9 px-4 text-xs">
               Get App
             </Button>
           </Link>
@@ -49,20 +49,20 @@ export default function Page(): React.ReactElement {
           <h1 className="text-5xl font-semibold tracking-[-0.04em] sm:text-7xl mb-4">
             Your ideas, organized.
           </h1>
-          <p className="text-[#888888] text-xl max-w-[600px] mx-auto mb-12">
+          <p className="text-muted-foreground text-xl max-w-[600px] mx-auto mb-12">
             The intelligent document management platform designed for thinkers. Local-first, distraction-free, and blazing fast.
           </p>
           
           <Link href="/download">
-            <Button size="lg" className="bg-white text-black hover:opacity-90 transition-transform hover:-translate-y-0.5 h-12 px-8 font-semibold rounded-md">
+            <Button size="lg" className="bg-foreground text-background hover:opacity-90 transition-transform hover:-translate-y-0.5 h-12 px-8 font-semibold rounded-md">
               <Download className="mr-2 h-5 w-5" />
               {ctaText}
             </Button>
           </Link>
         </section>
 
-        <div className="mt-20 p-[2px] bg-gradient-to-b from-[#262626] to-transparent rounded-xl">
-          <div className="aspect-[16/9] w-full bg-[#111111] rounded-[10px] flex items-center justify-center relative overflow-hidden group">
+        <div className="mt-20 p-[2px] bg-gradient-to-b from-border to-transparent rounded-xl">
+          <div className="aspect-[16/9] w-full bg-muted rounded-[10px] flex items-center justify-center relative overflow-hidden group">
             <img 
               src="/light_demo.png" 
               alt="Cortex App Demo Light" 
@@ -73,7 +73,7 @@ export default function Page(): React.ReactElement {
               alt="Cortex App Demo Dark" 
               className="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-700 hidden dark:block" 
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent opacity-40" />
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-40" />
           </div>
         </div>
 
@@ -110,8 +110,8 @@ export default function Page(): React.ReactElement {
           />
         </section>
 
-        <section id="download" className="py-24 text-center border-t border-[#262626]">
-          <div className="font-mono text-[10px] text-[#888888] uppercase tracking-widest mb-8">
+        <section id="download" className="py-24 text-center border-t border-border">
+          <div className="font-mono text-[10px] text-muted-foreground uppercase tracking-widest mb-8">
             Current Version: v1.0.7 — Released May 2026
           </div>
           <div className="flex flex-wrap justify-center gap-4">
@@ -121,13 +121,13 @@ export default function Page(): React.ReactElement {
           </div>
         </section>
 
-        <footer className="flex flex-col md:flex-row items-center justify-between py-16 border-t border-[#262626] text-[#888888] text-sm">
+        <footer className="flex flex-col md:flex-row items-center justify-between py-16 border-t border-border text-muted-foreground text-sm">
           <div className="mb-8 md:mb-0">© 2026 Cortex Labs</div>
           <div className="flex gap-8">
-            <a href="#" className="hover:text-white transition-colors">Docs</a>
-            <a href="#" className="hover:text-white transition-colors">GitHub</a>
-            <a href="#" className="hover:text-white transition-colors">Changelog</a>
-            <a href="#" className="hover:text-white transition-colors">License</a>
+            <a href="#" className="hover:text-foreground transition-colors">Docs</a>
+            <a href="#" className="hover:text-foreground transition-colors">GitHub</a>
+            <a href="#" className="hover:text-foreground transition-colors">Changelog</a>
+            <a href="#" className="hover:text-foreground transition-colors">License</a>
           </div>
         </footer>
       </div>
@@ -137,17 +137,17 @@ export default function Page(): React.ReactElement {
 
 function FeatureCard({ icon: Icon, title, description }: { icon: any, title: string, description: string }): React.ReactElement {
   return (
-    <div className="p-8 border border-[#262626] rounded-lg hover:border-[#444] transition-colors group">
-      <Icon className="h-6 w-6 text-[#888888] mb-6 group-hover:text-white transition-colors" />
+    <div className="p-8 border border-border rounded-lg hover:border-foreground/20 transition-colors group">
+      <Icon className="h-6 w-6 text-muted-foreground mb-6 group-hover:text-foreground transition-colors" />
       <h3 className="text-base font-semibold mb-3">{title}</h3>
-      <p className="text-[#888888] text-sm leading-relaxed">{description}</p>
+      <p className="text-muted-foreground text-sm leading-relaxed">{description}</p>
     </div>
   )
 }
 
 function DownloadButton({ icon: Icon, label }: { icon: any, label: string }): React.ReactElement {
   return (
-    <Button variant="outline" className="bg-transparent border-[#262626] hover:bg-[#111111] text-[#ededed] h-12 px-6 rounded-md">
+    <Button variant="outline" className="bg-transparent border-border hover:bg-muted text-foreground h-12 px-6 rounded-md">
       <Icon className="mr-2 h-5 w-5" />
       {label}
     </Button>

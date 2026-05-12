@@ -160,10 +160,28 @@
   font-size: 1rem;
 }
 
-/* For bullet or numbered lists, quotes, etc. */
 .bn-small-text .bn-editor ul,
 .bn-small-text .bn-editor ol,
 .bn-small-text .bn-editor blockquote {
   font-size: 0.875rem;
   line-height: 1.5;
+}
+
+/* Minimal Scrollbar UI */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted-foreground);
 }
