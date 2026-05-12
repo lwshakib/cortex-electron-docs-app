@@ -1,5 +1,6 @@
 "use client"
 import { useState, useEffect } from "react"
+import Link from "next/link"
 import { Button } from "@workspace/ui/components/button"
 import { Logo } from "@/components/logo"
 import { LucideIcon, Download, Zap, ShieldCheck, Layers, Cpu, Apple, Monitor, Terminal, Command, LayoutDashboard, RefreshCw } from "lucide-react"
@@ -34,9 +35,11 @@ export default function Page(): React.ReactElement {
             <Logo className="h-8 w-auto text-white" />
             <div className="font-mono text-xl font-bold tracking-tighter">CORTEX</div>
           </div>
-          <Button variant="outline" size="sm" className="bg-transparent border-[#262626] hover:bg-[#111111] text-[#ededed] h-9 px-4 text-xs">
-            Get App
-          </Button>
+          <Link href="/download">
+            <Button variant="outline" size="sm" className="bg-transparent border-[#262626] hover:bg-[#111111] text-[#ededed] h-9 px-4 text-xs">
+              Get App
+            </Button>
+          </Link>
         </nav>
 
         <section className="relative py-24 text-center sm:py-32">
@@ -50,23 +53,25 @@ export default function Page(): React.ReactElement {
             The intelligent document management platform designed for thinkers. Local-first, distraction-free, and blazing fast.
           </p>
           
-          <Button size="lg" className="bg-white text-black hover:opacity-90 transition-transform hover:-translate-y-0.5 h-12 px-8 font-semibold rounded-md">
-            <Download className="mr-2 h-5 w-5" />
-            {ctaText}
-          </Button>
+          <Link href="/download">
+            <Button size="lg" className="bg-white text-black hover:opacity-90 transition-transform hover:-translate-y-0.5 h-12 px-8 font-semibold rounded-md">
+              <Download className="mr-2 h-5 w-5" />
+              {ctaText}
+            </Button>
+          </Link>
         </section>
 
         <div className="mt-20 p-[2px] bg-gradient-to-b from-[#262626] to-transparent rounded-xl">
           <div className="aspect-[16/9] w-full bg-[#111111] rounded-[10px] flex items-center justify-center relative overflow-hidden group">
-            <div className="absolute top-4 left-4 flex gap-2 z-20">
-              <div className="w-2 h-2 rounded-full bg-[#262626]" />
-              <div className="w-2 h-2 rounded-full bg-[#262626]" />
-              <div className="w-2 h-2 rounded-full bg-[#262626]" />
-            </div>
             <img 
-              src="/demo.png" 
-              alt="Cortex App Demo" 
-              className="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-700" 
+              src="/light_demo.png" 
+              alt="Cortex App Demo Light" 
+              className="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-700 dark:hidden block" 
+            />
+            <img 
+              src="/dark_demo.png" 
+              alt="Cortex App Demo Dark" 
+              className="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-700 hidden dark:block" 
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent opacity-40" />
           </div>
