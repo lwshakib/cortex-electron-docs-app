@@ -39,7 +39,7 @@ export default function DownloadPage(): React.ReactElement {
               Choose your platform below to get started. 
               <br className="hidden md:block" />
               <span className="font-mono text-[11px] text-muted-foreground uppercase tracking-widest mt-4 block">
-                Current Version: v1.1.0 — Released May 2026
+                Current Version: v1.1.1 — Released May 2026
               </span>
             </p>
           </div>

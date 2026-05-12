@@ -118,7 +118,7 @@ export default function Page(): React.ReactElement {
 
         <section id="download" className="py-24 text-center border-t border-border">
           <div className="font-mono text-[10px] text-muted-foreground uppercase tracking-widest mb-8">
-            Current Version: v1.1.0 — Released May 2026
+            Current Version: v1.1.1 — Released May 2026
           </div>
           <div className="flex flex-wrap justify-center gap-4">
             <DownloadButton icon={Apple} label="macOS (.dmg)" />
