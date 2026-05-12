@@ -12,7 +12,7 @@
       provider: 'github',
       owner: 'lwshakib',
       repo: 'cortex',
-      releaseType: 'draft',
+      releaseType: 'release',
     },
   ],
   compression: 'maximum',
